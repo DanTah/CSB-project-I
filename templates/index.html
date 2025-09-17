@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Reseptisovellus</title>
+</head>
+
+<body>
+  <h1>Reseptisovellukseen!</h1>
+  {% if session.username %}
+  <p>
+    Olet kirjautunut nimellä {{ session.username }} <br />
+    <a href = "/logout">Kirjaudu ulos</a>
+  </p>
+  {% else %}
+    <p>
+      <a href = "/login">Kirjaudu sisään</a> <br />
+      <a href = "/register">Luo tunnus</a>
+    </p>
+  {% endif %}
+</body>
+
+</html>
