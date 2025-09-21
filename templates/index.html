@@ -22,6 +22,13 @@
       <a href = "/register">Luo tunnus</a>
     </p>
   {% endif %}
+  <h2> Reseptit </h2>
+    <ul>
+      {%for recipe in recipes%}
+      <li><a href = "/recipe/{{recipe.id}}"> {{recipe.title}}</a></li>
+      {%endfor%}
+    </ul>
+
 </body>
 
 </html>

@@ -3,3 +3,16 @@ import db
 def add_recipe(title, recipe_time, ingredients, instructions, user_id):
     sql = """INSERT INTO recipes (title, recipe_time, ingredients, instructions, user_id) VALUES (?, ?, ?, ?, ?)"""
     db.execute(sql, [title, recipe_time, ingredients, instructions, user_id])
+
+def get_recipes():
+    sql = "SELECT id,title FROM recipes ORDER BY id DESC"
+    return db.query(sql)
+
+def get_recipe(recipe_id):
+    sql = """SELECT u.username,
+                    r.title,
+                    r.recipe_time,
+                    r.ingredients,
+                    r.instructions
+             FROM users u, recipes r where r.user_id = u.id and r.id = ?"""
+    return db.query(sql,[recipe_id])[0]
