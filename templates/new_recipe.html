@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Uusi resepti</title>
+</head>
+
+<body>
+  <h1>Uusi resepti</h1>
+  <form action="/create_recipe" method="post">
+    <p>
+      Reseptin nimi: <br />
+      <input type="text" name="title" size = "30" />
+    </p>
+    <p>
+      Valmistusaika: <br />
+      <input type="text" name ="recipe_time" min="1" max = "999"/> minuuttia
+    </p>
+    <p>
+      Ainekset: <br />
+      <textarea name="ingredients" rows = "5" cols = "40"></textarea>
+      <small>Yksi ainesosa per rivi. </small>
+    </p>
+    <p>
+      Ohjeet: <br />
+      <textarea name="instructions" rows = "8" cols = "60"></textarea>
+    </p>
+    <input type="submit" value="Luo resepti" />
+  </form>
+</body>
+
+</html>

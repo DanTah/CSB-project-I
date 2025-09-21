@@ -6,10 +6,14 @@
 </head>
 
 <body>
-  <h1>Reseptisovellukseen!</h1>
+  <h1>Reseptisovellus</h1>
   {% if session.username %}
   <p>
-    Olet kirjautunut nimellä {{ session.username }} <br />
+    Olet kirjautunut nimellä {{ session.username }}, id-numerosi on {{session.user_id}} <br />
+  </p>
+
+  <p>
+    <a href = "/new_recipe"> Uusi resepti</a>
     <a href = "/logout">Kirjaudu ulos</a>
   </p>
   {% else %}
