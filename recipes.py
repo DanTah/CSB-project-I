@@ -30,3 +30,11 @@ def update_recipe(recipe_id, title, recipe_time, ingredients, instructions):
 def remove_recipe(recipe_id):
     sql = """DELETE FROM recipes WHERE id = ?"""
     db.execute(sql,[recipe_id])
+
+def find_recipes(query):
+    sql = """SELECT id, title
+             FROM recipes
+             WHERE LOWER(title) like LOWER(('%') || ? || ('%'))
+             OR LOWER(ingredients) like LOWER(('%') || ? || ('%'))
+             ORDER BY id DESC"""
+    return db.query(sql,[query,query])

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Reseptihaku</title>
+</head>
+
+<body>
+  <h1>Reseptihaku</h1>
+  <form action="/find_recipe" method="get">
+    <p>
+      Hakusana: <input type="text" name="query">
+    </p>
+    <input type="submit" value="Hae">
+  </form>
+  <p>
+    <a href = "/">Peruuta</a>
+  </p>
+  {%if query%}
+  <h2>Hakutulokset:</h2>
+  <ul>
+    {%for recipe in results%}
+    <li><a href="/recipe/{{recipe.id}}">{{recipe.title}}</a></li>
+    {%endfor%}
+  </ul>
+  {%endif%}
+</body>
+
+</html>
