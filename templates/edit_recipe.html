@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Reseptin muokkaus</title>
+</head>
+
+<body>
+  <h1>Reseptin muokkaus</h1>
+  <form action="/update_recipe" method="post">
+    <p>
+      Reseptin nimi: <br />
+      <input type="text" name="title" size = "30" value = "{{recipe.title}}">
+    </p>
+    <p>
+      Valmistusaika: <br />
+      <input type="text" name ="recipe_time" min="1" max = "999" value = "{{recipe.recipe_time}}"> minuuttia
+    </p>
+    <p>
+      Ainekset: <br />
+      <textarea class = "ingredients" name="ingredients" rows = "5" cols = "40">{{recipe.ingredients}}</textarea>
+      <small>Erottele ainesosat pilkulla. </small>
+    </p>
+    <p>
+      Ohjeet: <br />
+      <textarea name="instructions" rows = "8" cols = "60">{{recipe.instructions}}</textarea>
+    </p>
+    <input type="hidden" name="recipe_id" value = "{{recipe.id}}">
+    <input type="submit" value="Päivitä resepti" />
+  </form>
+</body>
+
+</html>

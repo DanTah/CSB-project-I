@@ -8,6 +8,11 @@
 <body>
   <h1>{{recipe.title}}</h1>
   <small> käyttäjältä {{recipe.username}} </small>
+  {% if session.user_id == recipe.user_id %}
+  <p>
+    <a href = "/edit_recipe/{{recipe.id}}">Muokkaa</a>
+  <p>
+  {%endif%}
   <p>Valmistusaika: {{recipe.recipe_time}} minuuttia</p>
   <p>Ainekset: <br>
     <ul>
