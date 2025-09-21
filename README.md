@@ -9,3 +9,25 @@
 * Sovelluksessa on käyttäjäsivut, jotka näyttävät käyttäjän lisäämät reseptit ja lisäysten lukumäärän.
 * Käyttäjä pystyy valitsemaan lisäämälleen reseptille yhden tai useamman luokittelun (esim. gluteiiniton, pääruoka, intialainen, ...).
 * Käyttäjä pystyy antamaan jokaiselle sovellukseen reseptille kommentin ja arvosanan. Reseptistä näytetään kommentit ja keskimääräinen arvosana.
+
+## Asennusohjeet sovelluksen testaamiseksi
+Kloonaa repositorio:
+```
+git clone https://github.com/DanTah/reseptit.git
+```
+Siirry kansioon `reseptit`:
+```
+cd reseptit
+```
+Asenna `flask` -kirjasto:
+```
+pip install flask
+```
+Luo tiedoston `schema.sql` avulla tietokanta tiedostoon `database.db`:
+```
+sqlite3 database.db < schema.sql
+```
+Nyt voit käynnistää sovelluksen:
+```
+flask run
+```
