@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title> Käyttäjä {{user.username}} </title>
+</head>
+
+<body>
+  <h1> Käyttäjä {{user.username}} </h1>
+  <p>
+    Käyttäjä on luonut {{recipes|length}} reseptiä.
+  </p>
+  <h2> Käyttäjän {{user.username}} reseptit: </h2>
+  <ul>
+    {%for recipe in recipes%}
+    <li><a href="/recipe/{{recipe.id}}">{{recipe.title}}</a></li>
+    {%endfor%}
+  </ul>
+  <p>
+    <a href = "/"> Takaisin etusivulle </a>
+  </p>
+
+</body>
+
+</html>

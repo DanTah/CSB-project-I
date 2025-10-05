@@ -5,6 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import db
 import config
 import recipes
+import users
 app = Flask(__name__)
 app.secret_key = config.secret_key
 
@@ -56,6 +57,15 @@ def edit_recipe(recipe_id):
     if recipe["user_id"] == session["user_id"]:
             return render_template("edit_recipe.html",recipe = recipe)
     abort(403)
+
+@app.route("/user/<int:user_id>")
+def show_user(user_id):
+    user = users.get_user(user_id)
+    recipes = users.get_recipes(user_id)
+    if not user:
+        abort(404)
+    return render_template("show_user.html", user = user, recipes = recipes)
+
 @app.route("/update_recipe",methods = ["POST"])
 def update_recipe():
     recipe_id = request.form["recipe_id"]
