@@ -65,7 +65,9 @@ def edit_recipe(recipe_id):
     if not recipe:
         abort(404)
     if recipe["user_id"] == session["user_id"]:
-            return render_template("edit_recipe.html",recipe = recipe)
+        classes = recipes.get_classes_in_recipe(recipe_id)
+        all_classes = recipes.get_classes()
+        return render_template("edit_recipe.html",recipe = recipe, classes = classes, all_classes = all_classes)
     abort(403)
 
 @app.route("/user/<int:user_id>")
@@ -97,7 +99,14 @@ def update_recipe():
     instructions = request.form["instructions"]
     if not instructions or len(instructions)>1000:
         abort(403)
-    recipes.update_recipe(recipe_id, title, recipe_time, ingredients, instructions)
+
+    classes = []
+    entries = request.form.getlist("classes")
+    if entries:
+        for entry in request.form.getlist("classes"):
+            parts = entry.split(":")
+            classes.append((parts[0], parts[1]))
+    recipes.update_recipe(recipe_id, title, recipe_time, ingredients, instructions, classes)
     return redirect("/recipe/"+str(recipe_id))
 
 @app.route("/remove_recipe/<int:recipe_id>", methods = ["GET", "POST"])
