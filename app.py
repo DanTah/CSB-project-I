@@ -26,9 +26,17 @@ def new_recipe():
 @app.route("/create_recipe",methods = ["POST"])
 def create_recipe():
     title = request.form["title"]
+    if not title or len(title)>65:
+        abort(403)
     recipe_time = request.form["recipe_time"]
+    if  not recipe_time or int(recipe_time)>999:
+        abort(403)
     ingredients = request.form["ingredients"]
+    if not ingredients or len(ingredients)>1000:
+        abort(403)
     instructions = request.form["instructions"]
+    if not instructions or len(instructions)>1000:
+        abort(403)
     user_id = session["user_id"]
     recipes.add_recipe(title, recipe_time, ingredients, instructions, user_id)
     return redirect("/")
@@ -57,9 +65,17 @@ def update_recipe():
     if recipe["user_id"] != session["user_id"]:
         abort(403)
     title = request.form["title"]
+    if not title or len(title)>65:
+        abort(403)
     recipe_time = request.form["recipe_time"]
+    if  not recipe_time or int(recipe_time)>999:
+        abort(403)
     ingredients = request.form["ingredients"]
+    if not ingredients or len(ingredients)>1000:
+        abort(403)
     instructions = request.form["instructions"]
+    if not instructions or len(instructions)>1000:
+        abort(403)
     recipes.update_recipe(recipe_id, title, recipe_time, ingredients, instructions)
     return redirect("/recipe/"+str(recipe_id))
 

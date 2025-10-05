@@ -10,22 +10,22 @@
   <form action="/update_recipe" method="post">
     <p>
       Reseptin nimi: <br />
-      <input type="text" name="title" size = "30" value = "{{recipe.title}}">
+      <input type="text" name="title" size = "30" value = "{{recipe.title}}" maxlength = "65" required/>
     </p>
     <p>
       Valmistusaika: <br />
-      <input type="text" name ="recipe_time" min="1" max = "999" value = "{{recipe.recipe_time}}"> minuuttia
+      <input type="number" name ="recipe_time" min="1" max = "999" step = "1" value = "{{recipe.recipe_time}}" required/> minuuttia
     </p>
     <p>
       Ainekset: <br />
-      <textarea class = "ingredients" name="ingredients" rows = "5" cols = "40">{{recipe.ingredients}}</textarea>
+      <textarea class = "ingredients" name="ingredients" rows = "5" cols = "40" maxlength = 1000 required>{{recipe.ingredients}}</textarea>
       <small>Erottele ainesosat pilkulla. </small>
     </p>
     <p>
       Ohjeet: <br />
-      <textarea name="instructions" rows = "8" cols = "60">{{recipe.instructions}}</textarea>
+      <textarea name="instructions" rows = "8" cols = "60" maxlength = 1000 required>{{recipe.instructions}}</textarea>
     </p>
-    <input type="hidden" name="recipe_id" value = "{{recipe.id}}">
+    <input type="hidden" name="recipe_id" value = "{{recipe.id}}"/>
     <input type="submit" value="Päivitä resepti" />
   </form>
 </body>
