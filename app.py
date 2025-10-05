@@ -21,10 +21,13 @@ def find_recipe():
 
 @app.route("/new_recipe")
 def new_recipe():
-    return render_template("new_recipe.html")
+    require_login()
+    classes = recipes.get_classes()
+    return render_template("new_recipe.html", classes = classes)
 
 @app.route("/create_recipe",methods = ["POST"])
 def create_recipe():
+    require_login()
     title = request.form["title"]
     if not title or len(title)>65:
         abort(403)
@@ -39,13 +42,11 @@ def create_recipe():
         abort(403)
     user_id = session["user_id"]
     classes = []
-    categories = request.form.getlist("category")
-    if categories:
-        for category in categories:
-            classes.append(("kategoria", category))
-    difficulty = request.form["difficulty"]
-    if difficulty:
-        classes.append(("vaikeustaso", difficulty))
+    entries = request.form.getlist("classes")
+    if entries:
+        for entry in request.form.getlist("classes"):
+            parts = entry.split(":")
+            classes.append((parts[0], parts[1]))
     recipes.add_recipe(title, recipe_time, ingredients, instructions, user_id, classes)
     return redirect("/")
 
@@ -54,11 +55,12 @@ def show_recipe(recipe_id):
     recipe = recipes.get_recipe(recipe_id)
     if not recipe:
         abort(404)
-    classes = recipes.get_classes(recipe_id)
+    classes = recipes.get_classes_in_recipe(recipe_id)
     return render_template("show_recipe.html", recipe = recipe, classes = classes)
 
 @app.route("/edit_recipe/<int:recipe_id>")
 def edit_recipe(recipe_id):
+    require_login()
     recipe = recipes.get_recipe(recipe_id)
     if not recipe:
         abort(404)
@@ -76,6 +78,7 @@ def show_user(user_id):
 
 @app.route("/update_recipe",methods = ["POST"])
 def update_recipe():
+    require_login()
     recipe_id = request.form["recipe_id"]
     recipe = recipes.get_recipe(recipe_id)
     if not recipe:
@@ -99,6 +102,7 @@ def update_recipe():
 
 @app.route("/remove_recipe/<int:recipe_id>", methods = ["GET", "POST"])
 def remove_recipe(recipe_id):
+    require_login()
     recipe = recipes.get_recipe(recipe_id)
     if not recipe:
         abort(404)
@@ -152,3 +156,7 @@ def logout():
     del session["user_id"]
     del session["username"]
     return redirect("/")
+
+def require_login():
+    if "user_id" not in session:
+        abort(403)
