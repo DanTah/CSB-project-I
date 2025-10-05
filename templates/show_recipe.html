@@ -7,7 +7,7 @@
 
 <body>
   <h1>{{recipe.title}}</h1>
-  <small> käyttäjältä <a href = "/user/{{recipe.user_id}}"> {{recipe.username}} </a> </small>
+  <p> käyttäjältä <a href = "/user/{{recipe.user_id}}"> {{recipe.username}} </a> </p>
   {% if session.user_id == recipe.user_id %}
   <p>
     <a href = "/edit_recipe/{{recipe.id}}">Muokkaa</a>
@@ -16,6 +16,24 @@
     <a href = "/remove_recipe/{{recipe.id}}">Poista</a>
   </p>
   {%endif%}
+  <p>
+    Vaikeustaso:
+    {% for class in classes %}
+    {% if class.title == "vaikeustaso" %}
+    {{class.value}}
+    {% endif %}
+    {% endfor %}
+  </p>
+  {% if classes[0].title == "kategoria" %}
+  <p>Kategoriat:</p>
+  <ul>
+    {% for class in classes %}
+    {% if class.title == "kategoria" %}
+    <li>{{class.value}}</li>
+    {% endif %}
+    {% endfor %}
+  </ul>
+  {% endif %}
   <p>Valmistusaika: {{recipe.recipe_time}} minuuttia</p>
   <p>Ainekset: <br>
     <ul>

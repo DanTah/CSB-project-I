@@ -38,7 +38,15 @@ def create_recipe():
     if not instructions or len(instructions)>1000:
         abort(403)
     user_id = session["user_id"]
-    recipes.add_recipe(title, recipe_time, ingredients, instructions, user_id)
+    classes = []
+    categories = request.form.getlist("category")
+    if categories:
+        for category in categories:
+            classes.append(("kategoria", category))
+    difficulty = request.form["difficulty"]
+    if difficulty:
+        classes.append(("vaikeustaso", difficulty))
+    recipes.add_recipe(title, recipe_time, ingredients, instructions, user_id, classes)
     return redirect("/")
 
 @app.route("/recipe/<int:recipe_id>")
@@ -46,7 +54,8 @@ def show_recipe(recipe_id):
     recipe = recipes.get_recipe(recipe_id)
     if not recipe:
         abort(404)
-    return render_template("show_recipe.html", recipe = recipe)
+    classes = recipes.get_classes(recipe_id)
+    return render_template("show_recipe.html", recipe = recipe, classes = classes)
 
 @app.route("/edit_recipe/<int:recipe_id>")
 def edit_recipe(recipe_id):

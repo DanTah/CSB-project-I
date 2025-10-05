@@ -12,9 +12,52 @@
       Reseptin nimi: <br />
       <input type="text" name="title" size = "30" maxlength = "65" required/>
     </p>
+  <h2>Valitse reseptillesi sopivat kategoriat </h2>
+    <p>Juhla:</p>
+    <p>
+      <input type = "checkbox" name = "category" value = "joulu" /> joulu
+      <input type = "checkbox" name = "category" value = "pääsiäinen" /> pääsiäinen
+      <input type = "checkbox" name = "category" value = "vappu" /> vappu
+      <input type = "checkbox" name = "category" value = "juhannus" /> juhannus
+      <input type = "checkbox" name = "category" value = "halloween" /> halloween
+    </p>
+    <p> Kulttuuri: </p>
+    <p>
+      <input type = "checkbox" name = "category" value = "italialainen" /> italialainen
+      <input type = "checkbox" name = "category" value = "ranskalainen" /> ranskalainen
+      <input type = "checkbox" name = "category" value = "intialainen" /> intialainen
+      <input type = "checkbox" name = "category" value = "kiinalainen" /> kiinalainen
+      <input type = "checkbox" name = "category" value = "suomalainen" /> suomalainen
+      <input type = "checkbox" name = "category" value = "meksikolainen" /> meksikolainen
+    </p>
+    <p> Ruokavaliot: </p>
+    <p>
+      <input type = "checkbox" name = "category" value = "vegaaninen" /> vegaaninen
+      <input type = "checkbox" name = "category" value = "laktoositon" /> laktoositon
+      <input type = "checkbox" name = "category" value = "gluteiiniton" /> gluteiiniton
+      <input type = "checkbox" name = "category" value = "kasvisruoka" /> kasvisruoka
+      <input type = "checkbox" name = "category" value = "kalaruoka" /> kalaruoka
+      <input type = "checkbox" name = "category" value = "maidoton" /> maidoton
+    <p> Lisäkategoriat: </p>
+    <p>
+      <input type = "checkbox" name = "category" value = "pääruoka" /> pääruoka
+      <input type = "checkbox" name = "category" value = "aamu-, väli- tai iltapala" /> aamu-, väli- tai iltapala
+      <input type = "checkbox" name = "category" value = "salaatti" /> salaatti
+      <input type = "checkbox" name = "category" value = "jälkiruoka" /> jälkiruoka
+      <input type = "checkbox" name = "category" value = "keitto" /> keitto
+      <input type = "checkbox" name = "category" value = "arkiruoka" /> arkiruoka
+    </p>
     <p>
       Valmistusaika: <br />
       <input type="number" name ="recipe_time" min="1" max = "999" step = "1" required/> minuuttia
+    </p>
+    <p>
+      Vaikeustaso:
+      <select name = "difficulty">
+        <option value = "helppo">helppo</option>
+        <option value = "keskitaso">keskitaso</option>
+        <option value = "vaikea">vaikea</option>
+      </select>
     </p>
     <p>
       Ainekset: <br />
