@@ -54,9 +54,9 @@ def update_recipe(recipe_id, title, recipe_time, ingredients, instructions, clas
                                  ingredients = ?,
                                  instructions = ?
                              WHERE id = ?"""
+    db.execute(sql,[title,recipe_time,ingredients,instructions,recipe_id])
     sql = "DELETE FROM classes_in_recipe WHERE recipe_id = ?"
     db.execute(sql,[recipe_id])
-    db.execute(sql, [title,recipe_time,ingredients,instructions,recipe_id])
     sql = """INSERT INTO classes_in_recipe (recipe_id, title, value) VALUES (?, ?, ?)"""
     for title, value in classes:
         db.execute(sql, [recipe_id, title, value])
