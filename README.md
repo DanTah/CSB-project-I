@@ -23,9 +23,10 @@ Asenna `flask` -kirjasto:
 ```
 pip install flask
 ```
-Luo tiedoston `schema.sql` avulla tietokanta tiedostoon `database.db`:
+Luo tiedoston `schema.sql` avulla tietokanta tiedostoon `database.db` ja lisää tiedoston `init.sql` tiedot:
 ```
 sqlite3 database.db < schema.sql
+sqlite3 database.db < init.sql
 ```
 Nyt voit käynnistää sovelluksen:
 ```
