@@ -45,6 +45,8 @@ def create_recipe():
     entries = request.form.getlist("classes")
     if entries:
         for entry in request.form.getlist("classes"):
+            if entry == "":
+                continue
             parts = entry.split(":")
             classes.append((parts[0], parts[1]))
     recipes.add_recipe(title, recipe_time, ingredients, instructions, user_id, classes)
@@ -104,6 +106,8 @@ def update_recipe():
     entries = request.form.getlist("classes")
     if entries:
         for entry in request.form.getlist("classes"):
+            if entry == "":
+                continue
             parts = entry.split(":")
             classes.append((parts[0], parts[1]))
     recipes.update_recipe(recipe_id, title, recipe_time, ingredients, instructions, classes)
