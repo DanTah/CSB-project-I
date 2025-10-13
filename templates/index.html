@@ -8,9 +8,16 @@
 <body>
   <h1>Reseptisovellus</h1>
   <a href="/find_recipe"> Reseptihaku</a>
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+  {% for message in messages %}
+  <p><strong>{{message}}</strong></p>
+  {% endfor %}
+  {% endif %}
+  {% endwith %}
   {% if session.username %}
   <p>
-    Olet kirjautunut nimellä {{ session.username }}, id-numerosi on {{session.user_id}} <br />
+    Olet kirjautunut nimellä {{ session.username }} <br />
   </p>
   <p>
   </p>

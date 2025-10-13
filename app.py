@@ -1,7 +1,7 @@
 import sqlite3
 from datetime import datetime
 from flask import Flask
-from flask import abort, redirect, render_template, request, session
+from flask import abort, redirect, render_template, request, session, flash
 import db
 import config
 import recipes
@@ -165,12 +165,15 @@ def create():
     password1 = request.form["password1"]
     password2 = request.form["password2"]
     if password1 != password2:
-        return "VIRHE: salasanat eivät ole samat"
+        flash("VIRHE: salasanat eivät ole samat")
+        return redirect("/register")
     try:
         users.create_user(username,password1)
     except sqlite3.IntegrityError:
-        return "Virhe: tunnus on jo varattu"
-    return "Tunnus luotu"
+        flash("VIRHE: tunnus on jo varattu")
+        return redirect("/register")
+    flash("Tunnusten luonti onnistui")
+    return redirect("/login")
 
 @app.route("/login", methods=["GET","POST"])
 def login():
@@ -187,12 +190,14 @@ def login():
             session["username"] = username
             return redirect("/")
         else:
-            return "VIRHE: väärä tunnus tai salasana"
+            flash("VIRHE: väärä tunnus tai salasana")
+            return redirect("/login")
 
 @app.route("/logout")
 def logout():
     del session["user_id"]
     del session["username"]
+    flash("Uloskirjautuminen onnistui")
     return redirect("/")
 
 def require_login():
