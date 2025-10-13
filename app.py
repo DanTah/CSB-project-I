@@ -1,4 +1,5 @@
 import sqlite3
+from datetime import datetime
 from flask import Flask
 from flask import abort, redirect, render_template, request, session
 import db
@@ -24,6 +25,24 @@ def new_recipe():
     require_login()
     classes = recipes.get_classes()
     return render_template("new_recipe.html", classes = classes)
+
+@app.route("/create_review",methods = ["POST"])
+def create_review():
+    require_login()
+    rating = request.form["rating"]
+    if not (is_int(rating) and  1<=int(rating)<=5):
+        abort(403)
+    comment = request.form["comment"]
+    if not comment or len(comment)>2000:
+        abort(403)
+    date = datetime.today().strftime('%d.%m.%Y')
+    recipe_id = request.form["recipe_id"]
+    recipe = recipes.get_recipe(recipe_id)
+    if not recipe:
+        abort(404)
+    user_id = session["user_id"]
+    recipes.add_review(recipe_id, user_id, rating, comment, date)
+    return redirect("/recipe/"+str(recipe_id))
 
 @app.route("/create_recipe",methods = ["POST"])
 def create_recipe():
@@ -61,7 +80,8 @@ def show_recipe(recipe_id):
     if not recipe:
         abort(404)
     classes = recipes.get_classes_in_recipe(recipe_id)
-    return render_template("show_recipe.html", recipe = recipe, classes = classes)
+    reviews = recipes.get_reviews(recipe_id)
+    return render_template("show_recipe.html", recipe = recipe, reviews = reviews, classes = classes)
 
 @app.route("/edit_recipe/<int:recipe_id>")
 def edit_recipe(recipe_id):
@@ -178,3 +198,12 @@ def logout():
 def require_login():
     if "user_id" not in session:
         abort(403)
+
+def is_int(value):
+  if value is None:
+      return False
+  try:
+      int(value)
+      return True
+  except:
+      return False

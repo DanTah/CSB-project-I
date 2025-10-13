@@ -25,3 +25,12 @@ CREATE TABLE classes_in_recipe (
     title TEXT,
     value TEXT
 );
+
+CREATE TABLE reviews (
+    id INEGER PRIMARY KEY,
+    recipe_id INTEGER REFERENCES recipes,
+    user_id INTEGER REFERENCES users,
+    rating INTEGER,
+    comment TEXT,
+    date DATE
+);
