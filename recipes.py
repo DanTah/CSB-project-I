@@ -30,6 +30,15 @@ def get_reviews(recipe_id):
              ORDER BY reviews.id DESC"""
     return db.query(sql, [recipe_id])
 
+def get_review(recipe_id,user_id):
+    sql = """SELECT users.id user_id, users.username, reviews.rating, reviews.comment, reviews.date
+             FROM users, reviews
+             WHERE reviews.recipe_id = ? AND reviews.user_id = users.id
+             AND reviews.user_id = ?"""
+    if db.query(sql, [recipe_id,user_id]):
+        return db.query(sql, [recipe_id,user_id])[0]
+    return None
+
 def get_classes_in_recipe(recipe_id):
     sql = """SELECT title, value
     FROM classes_in_recipe

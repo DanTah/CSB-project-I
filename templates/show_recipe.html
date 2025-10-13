@@ -48,7 +48,10 @@
     </ul>
   </p>
   <p>Ohjeet: <br> {{recipe.instructions}}</p>
-
+  {% if session.user_id %}
+  {% if my_review %}
+  <p> Olet jo arvioinut tämän reseptin</p>
+  {%else%}
   <h2>Arvioi resepti</h2>
   <form action = "/create_review" method = "post">
     <p>
@@ -65,9 +68,18 @@
     <input type = "hidden" name = "recipe_id" value = "{{recipe.id}}"/>
     <input type = "submit" value = "Lähetä arvio" />
   </form>
+  {% endif %}
+  {% endif %}
   <h2>Arviot</h2>
   <ul>
-    {% for review in reviews %}
+    {% if my_review %}
+    <li>
+      Käyttäjän <a href = "/user/{{my_review.user_id}}">{{my_review.username}}</a> arvio: {{my_review.rating}}/5 </br>
+      {{my_review.comment}}
+      <a href = "/"><p>Muokkaa arviotasi</p></a>
+    </li>
+    {% endif %}
+    {%for review in reviews if review.user_id!=my_review.user_id%}
     <li>
       Käyttäjän <a href = "/user/{{review.user_id}}">{{review.username}}</a> arvio: {{review.rating}}/5 </br>
       {{review.comment}}
