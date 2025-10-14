@@ -48,7 +48,7 @@
     </ul>
   </p>
   <p>Ohjeet: <br> {{recipe.instructions}}</p>
-  {% if session.user_id %}
+  {% if session.user_id and session.user_id != recipe.user_id %}
   {% if my_review %}
   <p> Olet jo arvioinut tämän reseptin</p>
   {%else%}
