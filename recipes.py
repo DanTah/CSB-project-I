@@ -24,20 +24,38 @@ def add_review(recipe_id, user_id, rating, comment, date):
     db.execute(sql, [recipe_id, user_id, rating, comment, date])
 
 def get_reviews(recipe_id):
-    sql = """SELECT users.id user_id, users.username, reviews.rating, reviews.comment, reviews.date
+    sql = """SELECT users.id user_id, users.username, reviews.id review_id, reviews.rating, reviews.comment, reviews.date
              FROM users, reviews
              WHERE reviews.recipe_id = ? AND reviews.user_id = users.id
              ORDER BY reviews.id DESC"""
     return db.query(sql, [recipe_id])
 
 def get_review(recipe_id,user_id):
-    sql = """SELECT users.id user_id, users.username, reviews.rating, reviews.comment, reviews.date
+    sql = """SELECT users.id user_id, users.username, reviews.id review_id, reviews.rating, reviews.comment, reviews.date
              FROM users, reviews
              WHERE reviews.recipe_id = ? AND reviews.user_id = users.id
              AND reviews.user_id = ?"""
     if db.query(sql, [recipe_id,user_id]):
         return db.query(sql, [recipe_id,user_id])[0]
     return None
+
+def get_review_by_id(review_id):
+    sql = """SELECT users.id user_id, users.username, reviews.id review_id, reviews.rating, reviews.comment, reviews.date
+             FROM users, reviews
+             WHERE reviews.id = ? AND reviews.user_id = users.id"""
+    if db.query(sql, [review_id]):
+        return db.query(sql, [review_id])[0]
+    return None
+
+def remove_review(review_id):
+    sql = """DELETE FROM reviews WHERE id = ?"""
+    db.execute(sql,[review_id])
+
+def update_review(review_id, recipe_id, user_id, rating, comment, date):
+    sql = """ UPDATE reviews
+              SET recipe_id = ?,user_id = ?,rating = ?,comment = ?,date = ?
+              WHERE id = ?"""
+    db.execute(sql,[recipe_id,user_id,rating,comment,date,review_id])
 
 def get_classes_in_recipe(recipe_id):
     sql = """SELECT title, value

@@ -76,7 +76,7 @@
     <li>
       Käyttäjän <a href = "/user/{{my_review.user_id}}">{{my_review.username}}</a> arvio: {{my_review.rating}}/5 </br>
       {{my_review.comment}}
-      <a href = "/"><p>Muokkaa arviotasi</p></a>
+      <a href = "/recipe/{{recipe.id}}/edit_review/{{my_review.review_id}}"><p>Muokkaa arviota</p></a>
     </li>
     {% endif %}
     {%for review in reviews if review.user_id!=my_review.user_id%}

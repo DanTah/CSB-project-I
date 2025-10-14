@@ -27,7 +27,7 @@ CREATE TABLE classes_in_recipe (
 );
 
 CREATE TABLE reviews (
-    id INEGER PRIMARY KEY,
+    id INTEGER PRIMARY KEY,
     recipe_id INTEGER REFERENCES recipes,
     user_id INTEGER REFERENCES users,
     rating INTEGER,

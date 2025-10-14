@@ -98,6 +98,39 @@ def edit_recipe(recipe_id):
         return render_template("edit_recipe.html",recipe = recipe, classes = classes, all_classes = all_classes)
     abort(403)
 
+@app.route("/recipe/<int:recipe_id>/edit_review/<int:review_id>", methods = ["GET", "POST"])
+def edit_review(recipe_id,review_id):
+    require_login()
+
+    recipe = recipes.get_recipe(recipe_id)
+    if not recipe:
+        abort(404)
+    my_review = recipes.get_review_by_id(review_id)
+    if not my_review:
+        abort(404)
+    if my_review["user_id"] != session["user_id"]:
+        abort(403)
+    if request.method == "GET":
+        return render_template("edit_review.html", my_review = my_review, recipe = recipe)
+    if request.method == "POST":
+        if "remove" in request.form:
+            recipes.remove_review(review_id)
+            return redirect("/recipe/"+str(recipe_id))
+        if "back" in request.form:
+            return redirect("/recipe/"+str(recipe_id))
+        if "update" in request.form:
+            user_id = session["user_id"]
+            rating = request.form["rating"]
+            if not (is_int(rating) and  1<=int(rating)<=5):
+                abort(403)
+            comment = request.form["comment"]
+            if not comment or len(comment)>2000:
+                abort(403)
+            date = datetime.today().strftime('%d.%m.%Y')
+            recipes.update_review(review_id,recipe_id, user_id, rating, comment, date)
+            return redirect("/recipe/"+str(recipe_id))
+
+
 @app.route("/user/<int:user_id>")
 def show_user(user_id):
     user = users.get_user(user_id)
