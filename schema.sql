@@ -10,7 +10,8 @@ CREATE TABLE recipes (
     recipe_time INTEGER,
     ingredients TEXT,
     instructions TEXT,
-    user_id INTEGER REFERENCES users
+    user_id INTEGER REFERENCES users,
+    image BLOB
 );
 
 CREATE TABLE classes (

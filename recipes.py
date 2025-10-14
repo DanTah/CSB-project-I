@@ -10,14 +10,23 @@ def get_classes():
         classes[title].append(value)
     return classes
 
-def add_recipe(title, recipe_time, ingredients, instructions, user_id, classes):
-    sql = """INSERT INTO recipes (title, recipe_time, ingredients, instructions, user_id) VALUES (?, ?, ?, ?, ?)"""
-    db.execute(sql, [title, recipe_time, ingredients, instructions, user_id])
+def add_recipe(title, recipe_time, ingredients, instructions, user_id, classes, image):
+    sql = """INSERT INTO recipes (title, recipe_time, ingredients, instructions, user_id, image) VALUES (?, ?, ?, ?, ?, ?)"""
+    db.execute(sql, [title, recipe_time, ingredients, instructions, user_id, image])
 
     recipe_id = db.last_insert_id()
     sql = """INSERT INTO classes_in_recipe (recipe_id, title, value) VALUES (?, ?, ?)"""
     for title, value in classes:
         db.execute(sql, [recipe_id, title, value])
+
+def get_last_recipe_id():
+    sql ="""SELECT MAX(id) FROM recipes"""
+    return db.query(sql)[0]
+
+def get_image(recipe_id):
+    sql = "SELECT image FROM recipes WHERE id=?"
+    result = db.query(sql,[recipe_id])
+    return result[0][0] if result else None
 
 def add_review(recipe_id, user_id, rating, comment, date):
     sql = """INSERT INTO reviews (recipe_id, user_id, rating, comment, date) VALUES (?, ?, ?, ?, ?)"""
@@ -80,7 +89,8 @@ def get_recipe(recipe_id):
                     r.title,
                     r.recipe_time,
                     r.ingredients,
-                    r.instructions
+                    r.instructions,
+                    r.image IS NOT NULL has_image
              FROM users u, recipes r where r.user_id = u.id and r.id = ?"""
     if db.query(sql,[recipe_id]):
         return db.query(sql,[recipe_id])[0]

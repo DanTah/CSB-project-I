@@ -7,31 +7,42 @@
 
 <body>
   <h1>Uusi resepti</h1>
-  <form action="/create_recipe" method="post">
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+  {% for message in messages %}
+  <p><strong>{{message}}</strong></p>
+  {% endfor %}
+  {% endif %}
+  {% endwith %}
+  <form action="/create_recipe" method="post" enctype="multipart/form-data">
     <p>
       Reseptin nimi: <br />
       <input type="text" name="title" size = "30" maxlength = "65" required/>
     </p>
-  <h2>Valitse reseptillesi sopivat kategoriat </h2>
-  {% for class in classes %}
-  {% if class != "Vaikeustaso" %}
-  <p>
-    {{ class }}: <br/>
-    {% for option in classes[class] %}
-    <input type = "checkbox" name = "classes" value = "{{ class }}:{{ option }}"/> {{ option }}
+    <p>
+      Kuva: <input type="file" name="image" accept=".png" />
+    </p>
+    <h2>Valitse reseptillesi sopivat kategoriat </h2>
+    {% for class in classes %}
+    {% if class != "Vaikeustaso" %}
+    <p>
+      {{ class }}: <br/>
+      {% for option in classes[class] %}
+      <input type = "checkbox" name = "classes" value = "{{ class }}:{{ option }}"/> {{ option }}
+      {% endfor %}
+    </p>
+    {% else %}
+    <p>
+      {{ class }}: <br/>
+      <select name = "classes">
+      <option value = "">(valitse)</option>
+      {% for option in classes[class] %}
+      <option value = "{{ class }}:{{ option }}">{{ option }}</option>
+      {% endfor %}
+      </select>
+    </p>
+    {% endif %}
     {% endfor %}
-  {% else %}
-  <p>
-    {{ class }}: <br/>
-    <select name = "classes">
-    <option value = "">(valitse)</option>
-    {% for option in classes[class] %}
-    <option value = "{{ class }}:{{ option }}">{{ option }}</option>
-    {% endfor %}
-    </select>
-  </p>
-  {% endif %}
-  {% endfor %}
     <p>
       Valmistusaika: <br />
       <input type="number" name ="recipe_time" min="1" max = "999" step = "1" required/> minuuttia

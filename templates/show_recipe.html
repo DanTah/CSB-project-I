@@ -7,6 +7,9 @@
 
 <body>
   <h1>{{recipe.title}}</h1>
+  {% if recipe.has_image == 1 %}
+  <img src="/image/{{recipe.id}}" />
+  {% endif %}
   <p> käyttäjältä <a href = "/user/{{recipe.user_id}}"> {{recipe.username}} </a> </p>
   {% if session.user_id == recipe.user_id %}
   <p>

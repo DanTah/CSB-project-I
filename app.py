@@ -1,7 +1,7 @@
 import sqlite3
 from datetime import datetime
 from flask import Flask
-from flask import abort, redirect, render_template, request, session, flash
+from flask import abort, redirect, render_template, request, session, flash, make_response
 import db
 import config
 import recipes
@@ -44,6 +44,16 @@ def create_review():
     recipes.add_review(recipe_id, user_id, rating, comment, date)
     return redirect("/recipe/"+str(recipe_id))
 
+@app.route("/image/<int:recipe_id>")
+def show_image(recipe_id):
+    image = recipes.get_image(recipe_id)
+    if not image:
+        abort(404)
+
+    response = make_response(bytes(image))
+    response.headers.set("Content-Type", "image/png")
+    return response
+
 @app.route("/create_recipe",methods = ["POST"])
 def create_recipe():
     require_login()
@@ -71,7 +81,18 @@ def create_recipe():
             if class_title not in all_classes or class_value not in all_classes[class_title]:
                 abort(403)
             classes.append((class_title, class_value))
-    recipes.add_recipe(title, recipe_time, ingredients, instructions, user_id, classes)
+
+    file = request.files["image"]
+    image = file.read()
+    if image:
+        if not file.filename.endswith(".png"):
+            flash("VIRHE: väärä tiedostomuoto")
+            return redirect("/new_recipe")
+        if len(image) > 100 * 1024:
+            flash("VIRHE: liian suuri kuva")
+            return redirect("/new_recipe")
+    recipes.add_recipe(title, recipe_time, ingredients, instructions, user_id, classes, image)
+    flash("Resepti on lisätty onnistuneesti")
     return redirect("/")
 
 @app.route("/recipe/<int:recipe_id>")
