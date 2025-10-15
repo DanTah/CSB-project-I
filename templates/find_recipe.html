@@ -13,7 +13,7 @@
 </form>
 
 {%if query%}
-<h2>Hakutulokset:</h2>
+<h3>Hakutulokset:</h3>
 <ul>
   {%for recipe in results%}
   <li><a href="/recipe/{{recipe.id}}">{{recipe.title}}</a></li>
