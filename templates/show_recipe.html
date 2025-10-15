@@ -5,10 +5,6 @@
 {% block content %}
 <h2>{{recipe.title}}</h2>
 
-{% if recipe.has_image%}
-<img src="/image/{{recipe.id}}" />
-{% endif %}
-
 <p>
   käyttäjältä <a href = "/user/{{recipe.user_id}}"> {{recipe.username}} </a>
 </p>
@@ -20,6 +16,10 @@
   <a href = "/remove_recipe/{{recipe.id}}">Poista</a>
 </p>
 {%endif%}
+
+{% if recipe.has_image%}
+<img src="/image/{{recipe.id}}" />
+{% endif %}
 
 <p>
   {% for title in classes %}

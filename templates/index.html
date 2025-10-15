@@ -4,10 +4,24 @@
 
 {% block content %}
 <h2> Reseptit </h2>
-  <ul>
-    {%for recipe in recipes%}
-    <li><a href = "/recipe/{{recipe.id}}"> {{recipe.title}}</a></li>
-    {%endfor%}
-  </ul>
 
+<div class="recipe-list">
+  {%for recipe in recipes%}
+  <div class="recipe-card">
+    <h3><a href = "/recipe/{{recipe.id}}">{{recipe.title}}</a></h3>
+    <p>
+      Kirjoittaja: <a href = "user/{{recipe.user_id}}">{{recipe.username}}</a>
+    </p>
+      {% for key, value in classes[recipe.id].items()%}
+      {%for category_list in value%}
+      <p class="classes">{{category_list}} </p>
+      {%endfor%}
+      {%endfor%}
+    </p>
+<!--    <p>
+      Arvioiden keskiarvo: (4.0/5)
+    </p> -->
+  </div>
+  {%endfor%}
+</div>
 {% endblock %}

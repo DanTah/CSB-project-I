@@ -1,0 +1,32 @@
+body {
+  margin: auto;
+  max-width: 50em;
+  font-family: sans-serif;
+  background-color: lightblue;
+}
+
+.recipe-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.recipe-card {
+    background-color: #F0F8FF;
+    border: 2px solid orange;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.recipe-card p {
+    margin: 5px 0;
+}
+
+.classes {
+    background-color: lightcyan;
+    border: 1px solid green;
+    border-radius: 5px;
+    padding: 5px;
+    margin-top: 5px;
+    display: inline-block;
+}

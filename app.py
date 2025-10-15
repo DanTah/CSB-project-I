@@ -12,7 +12,10 @@ app.secret_key = config.secret_key
 @app.route("/")
 def index():
     all_recipes = recipes.get_recipes()
-    return render_template("index.html", recipes = all_recipes)
+    classes = {}
+    for recipe in all_recipes:
+        classes[recipe["id"]] = recipes.get_classes_in_recipe(recipe["id"])
+    return render_template("index.html", recipes = all_recipes, classes = classes)
 
 @app.route("/find_recipe")
 def find_recipe():
@@ -182,10 +185,13 @@ def edit_review(recipe_id,review_id):
 @app.route("/user/<int:user_id>")
 def show_user(user_id):
     user = users.get_user(user_id)
-    recipes = users.get_recipes(user_id)
+    user_recipes = users.get_recipes(user_id)
     if not user:
         abort(404)
-    return render_template("show_user.html", user = user, recipes = recipes)
+    classes = {}
+    for user_recipe in user_recipes:
+        classes[user_recipe["id"]] = recipes.get_classes_in_recipe(user_recipe["id"])
+    return render_template("show_user.html", user = user, recipes = user_recipes, classes = classes)
 
 @app.route("/update_recipe",methods = ["POST"])
 def update_recipe():

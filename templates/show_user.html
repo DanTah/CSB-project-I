@@ -8,9 +8,22 @@
   Käyttäjä on luonut {{recipes|length}} reseptiä.
 </p>
 <h2> Käyttäjän reseptit: </h2>
-<ul>
+
+<div class="recipe-list">
   {%for recipe in recipes%}
-  <li><a href="/recipe/{{recipe.id}}">{{recipe.title}}</a></li>
+  <div class="recipe-card">
+    <h3><a href = "/recipe/{{recipe.id}}">{{recipe.title}}</a></h3>
+    <p>
+      |
+      {% for key, value in classes[recipe.id].items()%}
+      {%for category_list in value%}
+      {{category_list}} |
+      {%endfor%}
+      {%endfor%}
+    </p>
+<!--<p>
+      Arvio: ★★★★☆ (4.0/5)
+    </p> -->
+  </div>
   {%endfor%}
-</ul>
 {% endblock %}
