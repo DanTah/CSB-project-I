@@ -10,11 +10,11 @@ def get_classes():
         classes[title].append(value)
     return classes
 
-def add_recipe(title, recipe_time, ingredients, instructions, user_id, classes, image):
+def add_recipe(title, recipe_time, ingredients, instructions, user_id, image):
     sql = """INSERT INTO recipes (title, recipe_time, ingredients, instructions, user_id, image) VALUES (?, ?, ?, ?, ?, ?)"""
     db.execute(sql, [title, recipe_time, ingredients, instructions, user_id, image])
 
-    recipe_id = db.last_insert_id()
+def add_classes(recipe_id, classes):
     sql = """INSERT INTO classes_in_recipe (recipe_id, title, value) VALUES (?, ?, ?)"""
     for title, value in classes:
         db.execute(sql, [recipe_id, title, value])

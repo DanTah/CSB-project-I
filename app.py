@@ -121,9 +121,11 @@ def create_recipe():
             return redirect("/new_recipe")
     else:
         image = None
-    recipes.add_recipe(title, recipe_time, ingredients, instructions, user_id, classes, image)
+    recipes.add_recipe(title, recipe_time, ingredients, instructions, user_id, image)
+    recipe_id = db.last_insert_id()
+    recipes.add_classes(recipe_id,classes)
     flash("Resepti on lisätty onnistuneesti")
-    return redirect("/")
+    return redirect("/recipe/"+str(recipe_id))
 
 @app.route("/recipe/<int:recipe_id>")
 def show_recipe(recipe_id):
