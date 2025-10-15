@@ -1,46 +1,13 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>Reseptisovellus</title>
-</head>
+{% block title %}Reseptisovellus{% endblock %}
 
-<body>
-  <h1>Reseptisovellus</h1>
+{% block content %}
+<h2> Reseptit </h2>
+  <ul>
+    {%for recipe in recipes%}
+    <li><a href = "/recipe/{{recipe.id}}"> {{recipe.title}}</a></li>
+    {%endfor%}
+  </ul>
 
-  {% with messages = get_flashed_messages() %}
-  {% if messages %}
-  {% for message in messages %}
-  <p><strong>{{message}}</strong></p>
-  {% endfor %}
-  {% endif %}
-  {% endwith %}
-
-  <p>
-    {% if session.user_id %}
-    Olet kirjautunut nimellä {{ session.username }} <br />
-    {% endif %}
-  </p>
-
-  <p>
-    <a href="/find_recipe"> Reseptihaku</a> |
-    {% if session.user_id %}
-    <a href = "/new_recipe"> Uusi resepti</a> |
-    <a href = "/user/{{session.user_id}}"> Profiili</a> |
-    <a href = "/logout">Kirjaudu ulos</a>
-    {% else %}
-    <a href = "/login">Kirjaudu sisään</a> |
-    <a href = "/register">Luo tunnus</a>
-    {% endif %}
-  </p>
-
-  <h2> Reseptit </h2>
-    <ul>
-      {%for recipe in recipes%}
-      <li><a href = "/recipe/{{recipe.id}}"> {{recipe.title}}</a></li>
-      {%endfor%}
-    </ul>
-
-</body>
-
-</html>
+{% endblock %}

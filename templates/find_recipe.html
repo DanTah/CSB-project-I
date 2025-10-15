@@ -1,32 +1,24 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>Reseptihaku</title>
-</head>
+{% block title %}Reseptihaku{% endblock %}
 
-<body>
-  <h1>Reseptihaku</h1>
+{% block content %}
+<h2>Reseptihaku</h2>
 
-  <form action="/find_recipe" method="get">
-    <p>
-      Hakusana: <input type="text" name="query">
-    </p>
-    <input type="submit" value="Hae">
-  </form>
-
+<form action="/find_recipe" method="get">
   <p>
-    <a href = "/">Takaisin etusivulle</a>
+    Hakusana: <input type="text" name="query">
   </p>
+  <input type="submit" value="Hae">
+</form>
 
-  {%if query%}
-  <h2>Hakutulokset:</h2>
-  <ul>
-    {%for recipe in results%}
-    <li><a href="/recipe/{{recipe.id}}">{{recipe.title}}</a></li>
-    {%endfor%}
-  </ul>
-  {%endif%}
-</body>
+{%if query%}
+<h2>Hakutulokset:</h2>
+<ul>
+  {%for recipe in results%}
+  <li><a href="/recipe/{{recipe.id}}">{{recipe.title}}</a></li>
+  {%endfor%}
+</ul>
+{%endif%}
 
-</html>
+{% endblock %}

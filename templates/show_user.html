@@ -1,25 +1,16 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title> Käyttäjä {{user.username}} </title>
-</head>
+{% block title %}Käyttäjä {{user.username}}{% endblock %}
 
-<body>
-  <h1> Käyttäjä {{user.username}} </h1>
-  <p>
-    Käyttäjä on luonut {{recipes|length}} reseptiä.
-  </p>
-  <h2> Käyttäjän reseptit: </h2>
-  <ul>
-    {%for recipe in recipes%}
-    <li><a href="/recipe/{{recipe.id}}">{{recipe.title}}</a></li>
-    {%endfor%}
-  </ul>
-  <p>
-    <a href = "/"> Takaisin etusivulle </a>
-  </p>
-
-</body>
-
-</html>
+{% block content %}
+<h2>Käyttäjä {{user.username}}</h2>
+<p>
+  Käyttäjä on luonut {{recipes|length}} reseptiä.
+</p>
+<h2> Käyttäjän reseptit: </h2>
+<ul>
+  {%for recipe in recipes%}
+  <li><a href="/recipe/{{recipe.id}}">{{recipe.title}}</a></li>
+  {%endfor%}
+</ul>
+{% endblock %}

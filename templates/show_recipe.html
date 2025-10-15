@@ -1,109 +1,94 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>{{recipe.title}} </title>
-</head>
+{% block title %}{{recipe.title}}{% endblock %}
 
-<body>
-  <h1>{{recipe.title}}</h1>
+{% block content %}
+<h2>{{recipe.title}}</h2>
 
-  {% with messages = get_flashed_messages() %}
-  {% if messages %}
-  {% for message in messages %}
-  <p><strong>{{message}}</strong></p>
-  {% endfor %}
-  {% endif %}
-  {% endwith %}
+{% if recipe.has_image%}
+<img src="/image/{{recipe.id}}" />
+{% endif %}
 
-  {% if recipe.has_image%}
-  <img src="/image/{{recipe.id}}" />
-  {% endif %}
+<p>
+  käyttäjältä <a href = "/user/{{recipe.user_id}}"> {{recipe.username}} </a>
+</p>
 
-  <p>
-    käyttäjältä <a href = "/user/{{recipe.user_id}}"> {{recipe.username}} </a>
-  </p>
+{% if session.user_id == recipe.user_id %}
+<p>
+  <a href = "/edit_recipe/{{recipe.id}}">Muokkaa</a> |
+  <a href = "/new_image/{{recipe.id}}">Vaihda kuvaa</a> |
+  <a href = "/remove_recipe/{{recipe.id}}">Poista</a>
+</p>
+{%endif%}
 
-  {% if session.user_id == recipe.user_id %}
-  <p>
-    <a href = "/edit_recipe/{{recipe.id}}">Muokkaa</a> |
-    <a href = "/new_image/{{recipe.id}}">Vaihda kuvaa</a> |
-    <a href = "/remove_recipe/{{recipe.id}}">Poista</a>
-  </p>
-  {%endif%}
-
-  <p>
-    {% for title in classes %}
-    {% if title != "Vaikeustaso" %}
-    {{title}}: <br />
-    <ul>
-      {% for option in classes[title] %}
-      <li> {{ option }} </li>
-      {% endfor %}
-    </ul>
-
-    {% else %}
-
-    {{title}}:
-    {% for option in classes[title] %}
-    {{option}}
-    {% endfor %}
-    {% endif %}
-    {% endfor %}
-  </p>
-
-  <p>
-    Valmistusaika: {{recipe.recipe_time}} minuuttia <br />
-    Ainekset: <br />
-    <ul>
-      {%for ingredient in recipe.ingredients.split(",")%}
-      <li> {{ingredient}} </li>
-      {%endfor%}
-    </ul> <br />
-    Ohjeet: <br /> {{recipe.instructions}}
-  </p>
-
-  {% if session.user_id and session.user_id != recipe.user_id and not my_review %}
-
-  <h2>Arvioi resepti</h2>
-  <form action = "/create_review" method = "post">
-    <p>
-      Arvosana:
-      <select name = "rating" required>
-        <option value = "">(valitse)</option>
-        {% for rating in range(1,6) %}
-        <option value = "{{rating}}">{{rating}}</option>
-        {% endfor %}
-      </select>
-      </p>
-    <textarea name = "comment" rows = "8" cols = "60" placeholder = "Kommentoi reseptiä..." maxlength = 2000 required></textarea>
-    <br />
-    <input type = "hidden" name = "recipe_id" value = "{{recipe.id}}"/>
-    <input type = "submit" value = "Lähetä arvio" />
-  </form>
-  {% endif %}
-
-  <h2>Arviot</h2>
-
+<p>
+  {% for title in classes %}
+  {% if title != "Vaikeustaso" %}
+  {{title}}: <br />
   <ul>
-    {% if my_review %}
-    <li>
-      Käyttäjän <a href = "/user/{{my_review.user_id}}">{{my_review.username}}</a> arvio: {{my_review.rating}}/5
-      <a href = "/recipe/{{recipe.id}}/edit_review/{{my_review.review_id}}"> (Muokkaa arviota)</a> <br />
-      {{my_review.comment}}
-    </li> <br />
-    {% endif %}
-
-    {%for review in reviews if review.user_id!=my_review.user_id%}
-    <li>
-      Käyttäjän <a href = "/user/{{review.user_id}}">{{review.username}}</a> arvio: {{review.rating}}/5 <br />
-      {{review.comment}}
-    </li> <br />
+    {% for option in classes[title] %}
+    <li> {{ option }} </li>
     {% endfor %}
   </ul>
 
-  <a href = "/"> Takaisin etusivulle </a>
+  {% else %}
 
-</body>
+  {{title}}:
+  {% for option in classes[title] %}
+  {{option}}
+  {% endfor %}
+  {% endif %}
+  {% endfor %}
+</p>
 
-</html>
+<p>
+  Valmistusaika: {{recipe.recipe_time}} minuuttia <br />
+  Ainekset: <br />
+  <ul>
+    {%for ingredient in recipe.ingredients.split(",")%}
+    <li> {{ingredient}} </li>
+    {%endfor%}
+  </ul> <br />
+  Ohjeet: <br /> {{recipe.instructions}}
+</p>
+
+{% if session.user_id and session.user_id != recipe.user_id and not my_review %}
+
+<h2>Arvioi resepti</h2>
+<form action = "/create_review" method = "post">
+  <p>
+    Arvosana:
+    <select name = "rating" required>
+      <option value = "">(valitse)</option>
+      {% for rating in range(1,6) %}
+      <option value = "{{rating}}">{{rating}}</option>
+      {% endfor %}
+    </select>
+    </p>
+  <textarea name = "comment" rows = "8" cols = "60" placeholder = "Kommentoi reseptiä..." maxlength = 2000 required></textarea>
+  <br />
+  <input type = "hidden" name = "recipe_id" value = "{{recipe.id}}"/>
+  <input type = "submit" value = "Lähetä arvio" />
+</form>
+{% endif %}
+
+<h2>Arviot</h2>
+
+<ul>
+  {% if my_review %}
+  <li>
+    Käyttäjän <a href = "/user/{{my_review.user_id}}">{{my_review.username}}</a> arvio: {{my_review.rating}}/5
+    <a href = "/recipe/{{recipe.id}}/edit_review/{{my_review.review_id}}"> (Muokkaa arviota)</a> <br />
+    {{my_review.comment}}
+  </li> <br />
+  {% endif %}
+
+  {%for review in reviews if review.user_id!=my_review.user_id%}
+  <li>
+    Käyttäjän <a href = "/user/{{review.user_id}}">{{review.username}}</a> arvio: {{review.rating}}/5 <br />
+    {{review.comment}}
+  </li> <br />
+  {% endfor %}
+</ul>
+
+{% endblock %}

@@ -1,47 +1,25 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>Kirjautuminen</title>
-</head>
+{% block title %}Kirjautuminen{% endblock %}
 
-<body>
+{% block content %}
 
-  {% if session.username %}
+{% if not session.username %}
+<h2>Kirjaudu sisään</h2>
+
+<form action="/login" method="post">
   <p>
-    Olet kirjautunut nimellä {{ session.username }}
+    Tunnus: <br />
+    <input type="text" name="username" required/>
   </p>
+
   <p>
-    <a href="/">Etusivulle</a> <br />
-    <a href="/logout">Kirjaudu ulos</a>
+    Salasana: <br />
+    <input type="password" name="password" required/>
   </p>
-  {% else %}
 
-  <h1>Kirjaudu sisään</h1>
+  <input type="submit" value="Kirjaudu"/>
+</form>
+{% endif %}
 
-  {% with messages = get_flashed_messages() %}
-  {% if messages %}
-  {% for message in messages %}
-  <p><strong>{{message}}</strong></p>
-  {% endfor %}
-  {% endif %}
-  {% endwith %}
-
-  <form action="/login" method="post">
-    <p>
-      Tunnus: <br />
-      <input type="text" name="username" required/>
-    </p>
-
-    <p>
-      Salasana: <br />
-      <input type="password" name="password" required/>
-    </p>
-
-    <input type="submit" value="Kirjaudu"/>
-  </form>
-  <a href = "/">Peruuta</a>
-  {% endif %}
-</body>
-
-</html>
+{% endblock %}

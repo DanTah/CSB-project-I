@@ -1,70 +1,66 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>Reseptin muokkaus</title>
-</head>
+{% block title %}Reseptin muokkaus{% endblock %}
 
-<body>
-  <h1>Reseptin muokkaus</h1>
+{% block content %}
+<h2>Reseptin muokkaus</h2>
 
-  <form action="/update_recipe" method="post">
-    <p>
-      Reseptin nimi: <br />
-      <input type="text" name="title" size = "30" value = "{{recipe.title}}" maxlength = "65" required/>
-    </p>
+<form action="/update_recipe" method="post">
+  <p>
+    Reseptin nimi: <br />
+    <input type="text" name="title" size = "30" value = "{{recipe.title}}" maxlength = "65" required/>
+  </p>
 
 
 
-    <h2>Valitse reseptillesi sopivat kategoriat </h2>
-    {% for class in all_classes %}
-    {% if class != "Vaikeustaso" %}
-    <p>
-      {{ class }}: <br />
+  <h3>Valitse reseptillesi sopivat kategoriat </h3>
+  {% for class in all_classes %}
+  {% if class != "Vaikeustaso" %}
+  <p>
+    {{ class }}: <br />
+    {% for option in all_classes[class] %}
+    {%  if option in classes[class]  %}
+    <input type = "checkbox" name = "classes" value = "{{ class }}:{{ option }}" checked/> {{ option }}
+    {%  else  %}
+    <input type = "checkbox" name = "classes" value = "{{ class }}:{{ option }}"/> {{ option }}
+    {%  endif  %}
+    {% endfor %}
+  {% else %}
+  <p>
+    {{ class }}: <br />
+    <select name = "classes">
+      <option value = "">(valitse)</option>
       {% for option in all_classes[class] %}
       {%  if option in classes[class]  %}
-      <input type = "checkbox" name = "classes" value = "{{ class }}:{{ option }}" checked/> {{ option }}
-      {%  else  %}
-      <input type = "checkbox" name = "classes" value = "{{ class }}:{{ option }}"/> {{ option }}
+      <option value = "{{ class }}:{{ option }}" selected>{{ option }}</option>
+      {% else %}
+      <option value = "{{ class }}:{{ option }}" >{{ option }}</option>
       {%  endif  %}
       {% endfor %}
-    {% else %}
-    <p>
-      {{ class }}: <br />
-      <select name = "classes">
-        <option value = "">(valitse)</option>
-        {% for option in all_classes[class] %}
-        {%  if option in classes[class]  %}
-        <option value = "{{ class }}:{{ option }}" selected>{{ option }}</option>
-        {% else %}
-        <option value = "{{ class }}:{{ option }}" >{{ option }}</option>
-        {%  endif  %}
-        {% endfor %}
-      </select>
-    </p>
-    {% endif %}
-    {% endfor %}
+    </select>
+  </p>
+  {% endif %}
+  {% endfor %}
 
-    <p>
-      Valmistusaika: <br />
-      <input type="number" name ="recipe_time" min="1" max = "999" step = "1" value = "{{recipe.recipe_time}}" required/> minuuttia
-    </p>
+  <p>
+    Valmistusaika: <br />
+    <input type="number" name ="recipe_time" min="1" max = "999" step = "1" value = "{{recipe.recipe_time}}" required/> minuuttia
+  </p>
 
-    <p>
-      Ainekset: <br />
-      <textarea class = "ingredients" name="ingredients" rows = "5" cols = "40" maxlength = 1000 required>{{recipe.ingredients}}</textarea>
-      <small>Erottele ainesosat pilkulla. </small>
-    </p>
+  <p>
+    Ainekset: <br />
+    <textarea class = "ingredients" name="ingredients" rows = "5" cols = "40" maxlength = 1000 required>{{recipe.ingredients}}</textarea>
+    <small>Erottele ainesosat pilkulla. </small>
+  </p>
 
-    <p>
-      Ohjeet: <br />
-      <textarea name="instructions" rows = "8" cols = "60" maxlength = 1000 required>{{recipe.instructions}}</textarea>
-    </p>
+  <p>
+    Ohjeet: <br />
+    <textarea name="instructions" rows = "8" cols = "60" maxlength = 1000 required>{{recipe.instructions}}</textarea>
+  </p>
 
-    <input type="hidden" name="recipe_id" value = "{{recipe.id}}"/>
-    <input type="submit" value="Päivitä resepti" />
+  <input type="hidden" name="recipe_id" value = "{{recipe.id}}"/>
+  <input type="submit" value="Päivitä resepti" />
 
-  </form>
-</body>
+</form>
 
-</html>
+{% endblock %}

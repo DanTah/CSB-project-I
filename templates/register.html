@@ -1,37 +1,32 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>Rekisteröinti</title>
-</head>
+{% block title %}Rekisteröinti{% endblock %}
 
-<body>
-  <h1>Luo tunnus</h1>
+{% block content %}
+<h2>Luo tunnus</h2>
 
-  {% with messages = get_flashed_messages() %}
-  {% if messages %}
-  {% for message in messages %}
-  <p><strong>{{message}}</strong></p>
-  {% endfor %}
-  {% endif %}
-  {% endwith %}
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+{% for message in messages %}
+<p><strong>{{message}}</strong></p>
+{% endfor %}
+{% endif %}
+{% endwith %}
 
-  <form action="/create" method="post">
-    <p>
-      Tunnus: <br />
-      <input type="text" name="username" required/>
-    </p>
-    <p>
-      Salasana: <br />
-      <input type="password" name="password1" required/>
-    </p>
-    <p>
-      Salasana uudestaan: <br />
-      <input type="password" name="password2" required/>
-    </p>
-    <input type="submit" value="Luo tunnus" />
-  </form>
-  <a href = "/">Peruuta</a>
-</body>
+<form action="/create" method="post">
+  <p>
+    Tunnus: <br />
+    <input type="text" name="username" required/>
+  </p>
+  <p>
+    Salasana: <br />
+    <input type="password" name="password1" required/>
+  </p>
+  <p>
+    Salasana uudestaan: <br />
+    <input type="password" name="password2" required/>
+  </p>
+  <input type="submit" value="Luo tunnus" />
+</form>
 
-</html>
+{% endblock %}

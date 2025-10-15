@@ -1,37 +1,32 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>Arvion muokkaus</title>
-</head>
+{% block title %}Arvion muokkaus{% endblock %}
 
-<body>
-  <h1>Arvion muokkaus</h1>
+{% block content %}
+<h2>Arvion muokkaus</h2>
 
+<p>
+  Olet muokkaamassa arviotasi käyttäjän <a href = "/user/{{recipe.user_id}}">{{recipe.username}}</a> reseptille <a href="/recipe/{{recipe.id}}">{{recipe.title}}</a>
+</p>
+
+<form action="/recipe/{{recipe.id}}/edit_review/{{my_review.review_id}}" method="post">
   <p>
-    Muokkaa arviotasi käyttäjän <a href = "/user/{{recipe.user_id}}">{{recipe.username}}</a> reseptille <a href="/recipe/{{recipe.id}}">{{recipe.title}}</a>
+    Arvosana:
+    <select name = "rating" required>
+      <option value = "">(valitse)</option>
+      {% for rating in range(1,6) %}
+      {%  if rating == my_review.rating  %}
+      <option value = "{{rating}}" selected>{{rating}}</option>
+      {% else %}
+      <option value = "{{rating}}">{{rating}}</option>
+      {%  endif  %}
+      {% endfor %}
+    </select>
   </p>
 
-  <form action="/recipe/{{recipe.id}}/edit_review/{{my_review.review_id}}" method="post">
-    <p>
-      Arvosana:
-      <select name = "rating" required>
-        <option value = "">(valitse)</option>
-        {% for rating in range(1,6) %}
-        {%  if rating == my_review.rating  %}
-        <option value = "{{rating}}" selected>{{rating}}</option>
-        {% else %}
-        <option value = "{{rating}}">{{rating}}</option>
-        {%  endif  %}
-        {% endfor %}
-      </select>
-    </p>
-
-    <textarea name = "comment" rows = "8" cols = "60" placeholder = "Kommentoi reseptiä..." maxlength = 2000 required>{{my_review.comment}}</textarea> <br />
-    <input type = "submit" name = "update" value = "Tallenna muutokset" />
-    <input type = "submit" name = "remove" value = "Poista arvio" />
-    <input type = "submit" name = "back" value = "Peruuta" />
-  </form>
-</body>
-
-</html>
+  <textarea name = "comment" rows = "8" cols = "60" placeholder = "Kommentoi reseptiä..." maxlength = 2000 required>{{my_review.comment}}</textarea> <br />
+  <input type = "submit" name = "update" value = "Tallenna muutokset" />
+  <input type = "submit" name = "remove" value = "Poista arvio" />
+  <input type = "submit" name = "back" value = "Peruuta" />
+</form>
+{% endblock %}

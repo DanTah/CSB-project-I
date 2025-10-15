@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>{% block title %}{% endblock %}</title>
+</head>
+
+<body>
+  <h1>Reseptisovellus</h1>
+
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+  {% for message in messages %}
+  <p><strong>{{message}}</strong></p>
+  {% endfor %}
+  {% endif %}
+  {% endwith %}
+
+  <p>
+    {% if session.user_id %}
+    Olet kirjautunut nimellä {{session.username}} <br />
+    {% endif %}
+  </p>
+
+  <p>
+    <a href="/"> Etusivu</a> |
+    <a href="/find_recipe"> Reseptihaku</a> |
+    {% if session.user_id %}
+    <a href = "/new_recipe"> Uusi resepti</a> |
+    <a href = "/user/{{session.user_id}}"> Profiili</a> |
+    <a href = "/logout">Kirjaudu ulos</a>
+    {% else %}
+    <a href = "/login">Kirjaudu sisään</a> |
+    <a href = "/register">Luo tunnus</a>
+    {% endif %}
+  </p>
+
+  {% block content %}{% endblock %}
+</body>
+
+</html>
