@@ -19,14 +19,17 @@ def add_recipe(title, recipe_time, ingredients, instructions, user_id, classes, 
     for title, value in classes:
         db.execute(sql, [recipe_id, title, value])
 
-def get_last_recipe_id():
-    sql ="""SELECT MAX(id) FROM recipes"""
-    return db.query(sql)[0]
-
 def get_image(recipe_id):
     sql = "SELECT image FROM recipes WHERE id=?"
     result = db.query(sql,[recipe_id])
     return result[0][0] if result else None
+
+def update_image(recipe_id,image):
+    sql = """ UPDATE recipes
+              SET image = ?
+              WHERE id = ?"""
+    db.execute(sql,[image, recipe_id])
+
 
 def add_review(recipe_id, user_id, rating, comment, date):
     sql = """INSERT INTO reviews (recipe_id, user_id, rating, comment, date) VALUES (?, ?, ?, ?, ?)"""

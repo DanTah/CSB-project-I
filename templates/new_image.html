@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Reseptin kuvan vaihtaminen</title>
+</head>
+
+<body>
+  <h1>Reseptin kuvan vaihtaminen</h1>
+
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+  {% for message in messages %}
+  <p><strong>{{message}}</strong></p>
+  {% endfor %}
+  {% endif %}
+  {% endwith %}
+
+  {% if recipe.has_image %}
+  <p> reseptisi <a href = "/recipe/{{recipe.id}}">{{recipe.title}}</a> nykyinen kuva:</p>
+  <img src="/image/{{recipe.id}}" />
+  {% else %}
+  <p>Reseptilläsi ei ole vielä kuvaa</p>
+  {% endif %}
+
+  <form action="/new_image/{{recipe.id}}" method="post" enctype="multipart/form-data">
+    <p>
+      Valitse kuva (tiedostopääte .jpg, .jpeg tai .png): <input type="file" name="image" accept=".png, .jpg, .jpeg" />
+    </p>
+    <input type="submit" value="Tallenna muutokset" />
+  </form>
+  <p>
+    <a href = "/recipe/{{recipe.id}}">Peruuta</a>
+  </p>
+</body>
+
+</html>

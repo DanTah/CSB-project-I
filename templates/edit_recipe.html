@@ -12,6 +12,9 @@
       Reseptin nimi: <br />
       <input type="text" name="title" size = "30" value = "{{recipe.title}}" maxlength = "65" required/>
     </p>
+
+
+
     <h2>Valitse reseptillesi sopivat kategoriat </h2>
     {% for class in all_classes %}
     {% if class != "Vaikeustaso" %}

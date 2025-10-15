@@ -49,10 +49,35 @@ def show_image(recipe_id):
     image = recipes.get_image(recipe_id)
     if not image:
         abort(404)
-
     response = make_response(bytes(image))
-    response.headers.set("Content-Type", "image/png")
+    response.headers.set("Content-Type", "image")
     return response
+
+@app.route("/new_image/<int:recipe_id>", methods =["GET","POST"])
+def new_image(recipe_id):
+    require_login()
+    recipe = recipes.get_recipe(recipe_id)
+    if not recipe:
+        abort(404)
+    if recipe["user_id"] != session["user_id"]:
+        abort(403)
+    if request.method == "GET":
+        return render_template("new_image.html", recipe = recipe)
+    if request.method == "POST":
+        file = request.files["image"]
+        image = file.read()
+        if image:
+            if not file.filename.endswith((".png",".jpg",".jpeg")):
+                flash("VIRHE: väärä tiedostomuoto")
+                return redirect("/new_image/"+str(recipe_id))
+            if len(image) > 100 * 1024:
+                flash("VIRHE: liian suuri kuva")
+                return redirect("/new_image/"+str(recipe_id))
+        else:
+            image = None
+        recipes.update_image(recipe_id,image)
+        flash("Kuva on vaihdettu onnistuneesti")
+        return redirect("/recipe/"+str(recipe_id))
 
 @app.route("/create_recipe",methods = ["POST"])
 def create_recipe():
@@ -85,12 +110,14 @@ def create_recipe():
     file = request.files["image"]
     image = file.read()
     if image:
-        if not file.filename.endswith(".png"):
+        if not file.filename.endswith((".png",".jpg",".jpeg")):
             flash("VIRHE: väärä tiedostomuoto")
             return redirect("/new_recipe")
         if len(image) > 100 * 1024:
             flash("VIRHE: liian suuri kuva")
             return redirect("/new_recipe")
+    else:
+        image = None
     recipes.add_recipe(title, recipe_time, ingredients, instructions, user_id, classes, image)
     flash("Resepti on lisätty onnistuneesti")
     return redirect("/")
@@ -208,6 +235,7 @@ def remove_recipe(recipe_id):
     if request.method == "POST":
         if "remove" in request.form:
             recipes.remove_recipe(recipe_id)
+            flash("Resepti on poistettu onnistuneesti")
             return redirect("/")
         else:
             return redirect("/recipe/"+str(recipe_id))

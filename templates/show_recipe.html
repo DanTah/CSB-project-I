@@ -7,8 +7,15 @@
 
 <body>
   <h1>{{recipe.title}}</h1>
-  {% if recipe.has_image == 1 %}
-  <img src="/image/{{recipe.id}}" />
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+  {% for message in messages %}
+  <p><strong>{{message}}</strong></p>
+  {% endfor %}
+  {% endif %}
+  {% endwith %}
+  {% if recipe.has_image%}
+    <img src="/image/{{recipe.id}}" />
   {% endif %}
   <p> käyttäjältä <a href = "/user/{{recipe.user_id}}"> {{recipe.username}} </a> </p>
   {% if session.user_id == recipe.user_id %}
@@ -16,11 +23,11 @@
     <a href = "/edit_recipe/{{recipe.id}}">Muokkaa</a>
   </p>
   <p>
+    <a href = "/new_image/{{recipe.id}}">Vaihda kuvaa</a>
+  <p>
     <a href = "/remove_recipe/{{recipe.id}}">Poista</a>
   </p>
   {%endif%}
-
-
   {% for title in classes %}
   {% if title != "Vaikeustaso" %}
   <p>
