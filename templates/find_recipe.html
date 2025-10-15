@@ -7,15 +7,18 @@
 
 <body>
   <h1>Reseptihaku</h1>
+
   <form action="/find_recipe" method="get">
     <p>
       Hakusana: <input type="text" name="query">
     </p>
     <input type="submit" value="Hae">
   </form>
+
   <p>
-    <a href = "/">Peruuta</a>
+    <a href = "/">Takaisin etusivulle</a>
   </p>
+
   {%if query%}
   <h2>Hakutulokset:</h2>
   <ul>

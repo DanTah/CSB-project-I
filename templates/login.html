@@ -6,6 +6,7 @@
 </head>
 
 <body>
+
   {% if session.username %}
   <p>
     Olet kirjautunut nimellä {{ session.username }}
@@ -15,6 +16,9 @@
     <a href="/logout">Kirjaudu ulos</a>
   </p>
   {% else %}
+
+  <h1>Kirjaudu sisään</h1>
+
   {% with messages = get_flashed_messages() %}
   {% if messages %}
   {% for message in messages %}
@@ -22,20 +26,22 @@
   {% endfor %}
   {% endif %}
   {% endwith %}
-  <h1>Kirjaudu sisään</h1>
+
   <form action="/login" method="post">
     <p>
       Tunnus: <br />
       <input type="text" name="username" required/>
     </p>
+
     <p>
       Salasana: <br />
       <input type="password" name="password" required/>
     </p>
+
     <input type="submit" value="Kirjaudu"/>
   </form>
-  {% endif %}
   <a href = "/">Peruuta</a>
+  {% endif %}
 </body>
 
 </html>

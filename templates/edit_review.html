@@ -7,7 +7,11 @@
 
 <body>
   <h1>Arvion muokkaus</h1>
-  <p>Muokkaa arviotasi käytt käyttäjän <a href = "/user/{{recipe.user_id}}">{{recipe.username}}</a> reseptille <a href="/recipe/{{recipe.id}}">{{recipe.title}}</a></p>
+
+  <p>
+    Muokkaa arviotasi käyttäjän <a href = "/user/{{recipe.user_id}}">{{recipe.username}}</a> reseptille <a href="/recipe/{{recipe.id}}">{{recipe.title}}</a>
+  </p>
+
   <form action="/recipe/{{recipe.id}}/edit_review/{{my_review.review_id}}" method="post">
     <p>
       Arvosana:
@@ -21,9 +25,9 @@
         {%  endif  %}
         {% endfor %}
       </select>
-      </p>
-    <textarea name = "comment" rows = "8" cols = "60" placeholder = "Kommentoi reseptiä..." maxlength = 2000 required>{{my_review.comment}}</textarea>
-    </br>
+    </p>
+
+    <textarea name = "comment" rows = "8" cols = "60" placeholder = "Kommentoi reseptiä..." maxlength = 2000 required>{{my_review.comment}}</textarea> <br />
     <input type = "submit" name = "update" value = "Tallenna muutokset" />
     <input type = "submit" name = "remove" value = "Poista arvio" />
     <input type = "submit" name = "back" value = "Peruuta" />

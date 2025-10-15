@@ -10,7 +10,7 @@
   <p>
     Käyttäjä on luonut {{recipes|length}} reseptiä.
   </p>
-  <h2> Käyttäjän {{user.username}} reseptit: </h2>
+  <h2> Käyttäjän reseptit: </h2>
   <ul>
     {%for recipe in recipes%}
     <li><a href="/recipe/{{recipe.id}}">{{recipe.title}}</a></li>

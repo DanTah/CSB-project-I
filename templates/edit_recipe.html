@@ -7,6 +7,7 @@
 
 <body>
   <h1>Reseptin muokkaus</h1>
+
   <form action="/update_recipe" method="post">
     <p>
       Reseptin nimi: <br />
@@ -19,7 +20,7 @@
     {% for class in all_classes %}
     {% if class != "Vaikeustaso" %}
     <p>
-      {{ class }}: <br/>
+      {{ class }}: <br />
       {% for option in all_classes[class] %}
       {%  if option in classes[class]  %}
       <input type = "checkbox" name = "classes" value = "{{ class }}:{{ option }}" checked/> {{ option }}
@@ -29,16 +30,16 @@
       {% endfor %}
     {% else %}
     <p>
-      {{ class }}: <br/>
+      {{ class }}: <br />
       <select name = "classes">
-      <option value = "">(valitse)</option>
-      {% for option in all_classes[class] %}
-      {%  if option in classes[class]  %}
-      <option value = "{{ class }}:{{ option }}" selected>{{ option }}</option>
-      {% else %}
-      <option value = "{{ class }}:{{ option }}" >{{ option }}</option>
-      {%  endif  %}
-      {% endfor %}
+        <option value = "">(valitse)</option>
+        {% for option in all_classes[class] %}
+        {%  if option in classes[class]  %}
+        <option value = "{{ class }}:{{ option }}" selected>{{ option }}</option>
+        {% else %}
+        <option value = "{{ class }}:{{ option }}" >{{ option }}</option>
+        {%  endif  %}
+        {% endfor %}
       </select>
     </p>
     {% endif %}
@@ -48,17 +49,21 @@
       Valmistusaika: <br />
       <input type="number" name ="recipe_time" min="1" max = "999" step = "1" value = "{{recipe.recipe_time}}" required/> minuuttia
     </p>
+
     <p>
       Ainekset: <br />
       <textarea class = "ingredients" name="ingredients" rows = "5" cols = "40" maxlength = 1000 required>{{recipe.ingredients}}</textarea>
       <small>Erottele ainesosat pilkulla. </small>
     </p>
+
     <p>
       Ohjeet: <br />
       <textarea name="instructions" rows = "8" cols = "60" maxlength = 1000 required>{{recipe.instructions}}</textarea>
     </p>
+
     <input type="hidden" name="recipe_id" value = "{{recipe.id}}"/>
     <input type="submit" value="Päivitä resepti" />
+
   </form>
 </body>
 

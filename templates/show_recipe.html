@@ -7,6 +7,7 @@
 
 <body>
   <h1>{{recipe.title}}</h1>
+
   {% with messages = get_flashed_messages() %}
   {% if messages %}
   {% for message in messages %}
@@ -14,54 +15,56 @@
   {% endfor %}
   {% endif %}
   {% endwith %}
+
   {% if recipe.has_image%}
-    <img src="/image/{{recipe.id}}" />
+  <img src="/image/{{recipe.id}}" />
   {% endif %}
-  <p> käyttäjältä <a href = "/user/{{recipe.user_id}}"> {{recipe.username}} </a> </p>
+
+  <p>
+    käyttäjältä <a href = "/user/{{recipe.user_id}}"> {{recipe.username}} </a>
+  </p>
+
   {% if session.user_id == recipe.user_id %}
   <p>
-    <a href = "/edit_recipe/{{recipe.id}}">Muokkaa</a>
-  </p>
-  <p>
-    <a href = "/new_image/{{recipe.id}}">Vaihda kuvaa</a>
-  <p>
+    <a href = "/edit_recipe/{{recipe.id}}">Muokkaa</a> |
+    <a href = "/new_image/{{recipe.id}}">Vaihda kuvaa</a> |
     <a href = "/remove_recipe/{{recipe.id}}">Poista</a>
   </p>
   {%endif%}
-  {% for title in classes %}
-  {% if title != "Vaikeustaso" %}
+
   <p>
-    {{ title }}: <br/>
+    {% for title in classes %}
+    {% if title != "Vaikeustaso" %}
+    {{title}}: <br />
     <ul>
-    {% for option in classes[title] %}
-    <li> {{ option }} </li>
-    {% endfor %}
+      {% for option in classes[title] %}
+      <li> {{ option }} </li>
+      {% endfor %}
     </ul>
-  </p>
-  {% else %}
-  <p>
-    {{ title }}:
+
+    {% else %}
+
+    {{title}}:
     {% for option in classes[title] %}
-    {{ option }}
+    {{option}}
+    {% endfor %}
+    {% endif %}
     {% endfor %}
   </p>
-  {% endif %}
-  {% endfor %}
 
-
-  <p>Valmistusaika: {{recipe.recipe_time}} minuuttia</p>
-  <p>Ainekset: <br>
+  <p>
+    Valmistusaika: {{recipe.recipe_time}} minuuttia <br />
+    Ainekset: <br />
     <ul>
       {%for ingredient in recipe.ingredients.split(",")%}
       <li> {{ingredient}} </li>
       {%endfor%}
-    </ul>
+    </ul> <br />
+    Ohjeet: <br /> {{recipe.instructions}}
   </p>
-  <p>Ohjeet: <br> {{recipe.instructions}}</p>
-  {% if session.user_id and session.user_id != recipe.user_id %}
-  {% if my_review %}
-  <p> Olet jo arvioinut tämän reseptin</p>
-  {%else%}
+
+  {% if session.user_id and session.user_id != recipe.user_id and not my_review %}
+
   <h2>Arvioi resepti</h2>
   <form action = "/create_review" method = "post">
     <p>
@@ -74,33 +77,32 @@
       </select>
       </p>
     <textarea name = "comment" rows = "8" cols = "60" placeholder = "Kommentoi reseptiä..." maxlength = 2000 required></textarea>
-    </br>
+    <br />
     <input type = "hidden" name = "recipe_id" value = "{{recipe.id}}"/>
     <input type = "submit" value = "Lähetä arvio" />
   </form>
   {% endif %}
-  {% endif %}
+
   <h2>Arviot</h2>
+
   <ul>
     {% if my_review %}
     <li>
-      Käyttäjän <a href = "/user/{{my_review.user_id}}">{{my_review.username}}</a> arvio: {{my_review.rating}}/5 </br>
+      Käyttäjän <a href = "/user/{{my_review.user_id}}">{{my_review.username}}</a> arvio: {{my_review.rating}}/5
+      <a href = "/recipe/{{recipe.id}}/edit_review/{{my_review.review_id}}"> (Muokkaa arviota)</a> <br />
       {{my_review.comment}}
-      <a href = "/recipe/{{recipe.id}}/edit_review/{{my_review.review_id}}"><p>Muokkaa arviota</p></a>
-    </li>
+    </li> <br />
     {% endif %}
+
     {%for review in reviews if review.user_id!=my_review.user_id%}
     <li>
-      Käyttäjän <a href = "/user/{{review.user_id}}">{{review.username}}</a> arvio: {{review.rating}}/5 </br>
+      Käyttäjän <a href = "/user/{{review.user_id}}">{{review.username}}</a> arvio: {{review.rating}}/5 <br />
       {{review.comment}}
-    </li>
-    </br>
+    </li> <br />
     {% endfor %}
   </ul>
 
-  <p>
-    <a href = "/"> Takaisin etusivulle </a>
-  </p>
+  <a href = "/"> Takaisin etusivulle </a>
 
 </body>
 

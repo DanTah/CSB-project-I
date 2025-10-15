@@ -7,7 +7,7 @@
 
 <body>
   <h1>Reseptisovellus</h1>
-  <a href="/find_recipe"> Reseptihaku</a>
+
   {% with messages = get_flashed_messages() %}
   {% if messages %}
   {% for message in messages %}
@@ -15,22 +15,25 @@
   {% endfor %}
   {% endif %}
   {% endwith %}
-  {% if session.username %}
+
   <p>
+    {% if session.user_id %}
     Olet kirjautunut nimellä {{ session.username }} <br />
+    {% endif %}
   </p>
+
   <p>
-  </p>
-  <p>
-    <a href = "/new_recipe"> Uusi resepti</a>
+    <a href="/find_recipe"> Reseptihaku</a> |
+    {% if session.user_id %}
+    <a href = "/new_recipe"> Uusi resepti</a> |
+    <a href = "/user/{{session.user_id}}"> Profiili</a> |
     <a href = "/logout">Kirjaudu ulos</a>
+    {% else %}
+    <a href = "/login">Kirjaudu sisään</a> |
+    <a href = "/register">Luo tunnus</a>
+    {% endif %}
   </p>
-  {% else %}
-    <p>
-      <a href = "/login">Kirjaudu sisään</a> <br />
-      <a href = "/register">Luo tunnus</a>
-    </p>
-  {% endif %}
+
   <h2> Reseptit </h2>
     <ul>
       {%for recipe in recipes%}
