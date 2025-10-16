@@ -98,7 +98,7 @@ def create_recipe():
     if not ingredients or len(ingredients)>1000:
         abort(403)
     instructions = request.form["instructions"]
-    if not instructions or len(instructions)>1000:
+    if not instructions or len(instructions)>3000:
         abort(403)
     user_id = session["user_id"]
     all_classes = recipes.get_classes()
@@ -217,7 +217,7 @@ def update_recipe():
     if not ingredients or len(ingredients)>1000:
         abort(403)
     instructions = request.form["instructions"]
-    if not instructions or len(instructions)>1000:
+    if not instructions or len(instructions)>3000:
         abort(403)
     all_classes = recipes.get_classes()
     classes = []
