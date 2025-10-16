@@ -9,17 +9,9 @@
 <body>
   <h1>Reseptisovellus</h1>
 
-  {% with messages = get_flashed_messages() %}
-  {% if messages %}
-  {% for message in messages %}
-  <p><strong>{{message}}</strong></p>
-  {% endfor %}
-  {% endif %}
-  {% endwith %}
-
   <p>
     {% if session.user_id %}
-    Olet kirjautunut nimellä {{session.username}} <br />
+    Olet kirjautunut käyttäjänimellä {{session.username}} <br />
     {% endif %}
   </p>
 
@@ -35,6 +27,14 @@
     <a href = "/register">Luo tunnus</a>
     {% endif %}
   </p>
+
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+  {% for message in messages %}
+  <p class="info"><strong>{{message}}</strong></p>
+  {% endfor %}
+  {% endif %}
+  {% endwith %}
 
   {% block content %}{% endblock %}
 </body>
