@@ -3,7 +3,9 @@
 {% block title %}Reseptin muokkaus{% endblock %}
 
 {% block content %}
-<h2>Reseptin muokkaus</h2>
+<h2>{{recipe.title}}</h2>
+
+<h3>Reseptin muokkaus</h3>
 
 <form action="/update_recipe" method="post">
   <p>
@@ -13,7 +15,7 @@
 
 
 
-  <h3>Valitse reseptillesi sopivat kategoriat </h3>
+  <p><strong>Valitse reseptillesi sopivat kategoriat </p></strong>
   {% for class in all_classes %}
   {% if class != "Vaikeustaso" %}
   <p>
@@ -55,12 +57,13 @@
 
   <p>
     Ohjeet: <br />
-    <textarea name="instructions" rows = "8" cols = "60" maxlength = 1000 required>{{recipe.instructions}}</textarea>
+    <textarea name="instructions" rows = "8" cols = "60" maxlength = 3000 required>{{recipe.instructions}}</textarea>
   </p>
 
   <input type="hidden" name="recipe_id" value = "{{recipe.id}}"/>
   <input type="submit" value="Päivitä resepti" />
 
 </form>
+<p><a href = "/recipe/{{recipe.id}}">Peruuta</a></p>
 
 {% endblock %}

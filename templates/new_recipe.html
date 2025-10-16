@@ -12,7 +12,7 @@
   <p>
     Valitse kuva (tiedostopääte .jpg, .jpeg tai .png): <input type="file" name="image" accept=".jpg, .jpeg, .png" />
   </p>
-  <h3>Valitse reseptillesi sopivat kategoriat </h3>
+  <p><strong>Valitse reseptillesi sopivat kategoriat </p></strong>
   {% for class in classes %}
   {% if class != "Vaikeustaso" %}
   <p>
@@ -44,7 +44,7 @@
   </p>
   <p>
     Ohjeet: <br />
-    <textarea name="instructions" rows = "8" cols = "60" maxlength = 1000 required></textarea>
+    <textarea name="instructions" rows = "8" cols = "60" maxlength = 3000 required></textarea>
   </p>
   <input type="submit" value="Luo resepti" />
 </form>

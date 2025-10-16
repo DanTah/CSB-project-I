@@ -3,22 +3,24 @@
 {% block title %}Reseptin kuvan vaihtaminen{% endblock %}
 
 {% block content %}
-<h2>Reseptin kuvan vaihtaminen</h2>
+<h2>{{recipe.title}}</h2>
+<h3>Kuvan vaihtaminen</h3>
 
 {% if recipe.has_image %}
-<p> Reseptin "{{recipe.title}}" nykyinen kuva:</p>
-<img src="/image/{{recipe.id}}" />
+<p> Reseptin nykyinen kuva:</p>
+<img class ="resize" src="/image/{{recipe.id}}" />
 {% else %}
 <p>Reseptillä "{{recipe.title}}" ei ole vielä kuvaa</p>
 {% endif %}
 
 <form action="/new_image/{{recipe.id}}" method="post" enctype="multipart/form-data">
 <p>
-    Valitse uusi kuva (tiedostopääte .jpg, .jpeg tai .png): <input type="file" name="image" accept=".png, .jpg, .jpeg" />
+  Valitse uusi kuva (tiedostopääte .jpg, .jpeg tai .png): <input type="file" name="image" accept=".png, .jpg,
+    .jpeg" />
 </p>
 <input type="submit" value="Tallenna muutokset" />
 </form>
 <p>
-<a href = "/recipe/{{recipe.id}}">Peruuta</a>
+  <a href = "/recipe/{{recipe.id}}">Peruuta</a>
 </p>
 {% endblock %}

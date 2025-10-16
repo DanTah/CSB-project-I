@@ -14,7 +14,7 @@ body {
 }
 
 .recipe-card {
-    background-color: #F0F8FF;
+    background-color:#C8E5EE;
     border: 2px solid orange;
     border-radius: 5px;
     padding: 10px;
@@ -72,10 +72,12 @@ img.resize {
 
 .review-section {
     margin-top: 20px;
-    background-color: #fffbf7;
+    background-color: #C8E5EE;
     border: 2px solid green;
     border-radius: 5px;
     padding: 20px;
+    margin-bottom: 10px;
+}
 
 .review {
     margin-bottom: 15px;
