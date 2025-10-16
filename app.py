@@ -21,7 +21,10 @@ def index():
 def find_recipe():
     query = request.args.get("query")
     results = recipes.find_recipes(query) if query else []
-    return render_template("find_recipe.html", query=query, results = results)
+    classes = {}
+    for recipe in results:
+        classes[recipe["id"]] = recipes.get_classes_in_recipe(recipe["id"])
+    return render_template("find_recipe.html", query=query, results = results, classes = classes)
 
 @app.route("/new_recipe")
 def new_recipe():

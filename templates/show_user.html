@@ -13,17 +13,15 @@
   {%for recipe in recipes%}
   <div class="recipe-card">
     <h3><a href = "/recipe/{{recipe.id}}">{{recipe.title}}</a></h3>
-    <p>
-      |
-      {% for key, value in classes[recipe.id].items()%}
-      {%for category_list in value%}
-      {{category_list}} |
-      {%endfor%}
-      {%endfor%}
-    </p>
+    {% for class, options in classes[recipe.id].items()%}
+    {%for option in options%}
+    <p class="classes" data-status="{{class}}">{{option}} </p>
+    {%endfor%}
+    {%endfor%}
 <!--<p>
-      Arvio: ★★★★☆ (4.0/5)
+      Arvio
     </p> -->
   </div>
   {%endfor%}
+</div>
 {% endblock %}

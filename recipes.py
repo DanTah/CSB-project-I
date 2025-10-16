@@ -124,9 +124,9 @@ def remove_recipe(recipe_id):
     db.execute(sql,[recipe_id])
 
 def find_recipes(query):
-    sql = """SELECT id, title
-             FROM recipes
-             WHERE LOWER(title) like LOWER(('%') || ? || ('%'))
-             OR LOWER(ingredients) like LOWER(('%') || ? || ('%'))
-             ORDER BY id DESC"""
+    sql = """SELECT recipes.id, recipes.title, users.id user_id, users.username
+             FROM recipes, users
+             WHERE recipes.user_id = users.id AND (LOWER(recipes.title) like LOWER(('%') || ? || ('%'))
+             OR LOWER(recipes.ingredients) like LOWER(('%') || ? || ('%')))
+             ORDER BY recipes.id DESC"""
     return db.query(sql,[query,query])

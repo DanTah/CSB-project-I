@@ -18,39 +18,30 @@
 {%endif%}
 
 {% if recipe.has_image%}
-<img src="/image/{{recipe.id}}" />
+<img class ="resize" src="/image/{{recipe.id}}" />
 {% endif %}
-
-<p>
-  {% for title in classes %}
-  {% if title != "Vaikeustaso" %}
-  {{title}}: <br />
-  <ul>
-    {% for option in classes[title] %}
-    <li> {{ option }} </li>
-    {% endfor %}
-  </ul>
-
-  {% else %}
-
-  {{title}}:
-  {% for option in classes[title] %}
-  {{option}}
-  {% endfor %}
-  {% endif %}
-  {% endfor %}
-</p>
-
-<p>
-  Valmistusaika: {{recipe.recipe_time}} minuuttia <br />
-  Ainekset: <br />
-  <ul>
-    {%for ingredient in recipe.ingredients.split(",")%}
-    <li> {{ingredient}} </li>
-    {%endfor%}
-  </ul> <br />
-  Ohjeet: <br /> {{recipe.instructions}}
-</p>
+<br />
+{% for title in classes %}
+{% for option in classes[title] %}
+<p class="classes" data-status="{{title}}">{{option}}</p>
+{%endfor%}
+{%endfor%}
+<h3>Valmistusaika</h3>
+<p>Valmistusaika: {{recipe.recipe_time}} minuuttia</p>
+<div class="recipe-container">
+  <div class="ingredients">
+    <h3>Ainekset:</h3>
+    <ul>
+      {%for ingredient in recipe.ingredients.split(",")%}
+      <li> {{ingredient}}</li>
+      {%endfor%}
+    </ul>
+  </div>
+  <div class="instructions">
+    <h3>Valmistusohjeet: </h3>
+    <p>{{recipe.instructions}}</p>
+  </div>
+</div>
 
 {% if session.user_id and session.user_id != recipe.user_id and not my_review %}
 
@@ -72,23 +63,30 @@
 </form>
 {% endif %}
 
-<h2>Arviot</h2>
 
-<ul>
-  {% if my_review %}
-  <li>
-    Käyttäjän <a href = "/user/{{my_review.user_id}}">{{my_review.username}}</a> arvio: {{my_review.rating}}/5
-    <a href = "/recipe/{{recipe.id}}/edit_review/{{my_review.review_id}}"> (Muokkaa arviota)</a> <br />
-    {{my_review.comment}}
-  </li> <br />
-  {% endif %}
+{%if reviews%}
+<div class="review-section">
+  <h2>Arviot</h2>
+    {% if my_review %}
+    <div class="review">
+      <div class = "review-header">
+        <p><strong>Käyttäjä: <a href = "/user/{{my_review.user_id}}">{{my_review.username}}</a></strong></p>
+        <p><a href = "/recipe/{{recipe.id}}/edit_review/{{my_review.review_id}}">Muokkaa</a></p>
+      </div>
+      <p>{{my_review.rating}}/5</p>
+      <p>{{my_review.comment}}</p>
+    </div>
 
-  {%for review in reviews if review.user_id!=my_review.user_id%}
-  <li>
-    Käyttäjän <a href = "/user/{{review.user_id}}">{{review.username}}</a> arvio: {{review.rating}}/5 <br />
-    {{review.comment}}
-  </li> <br />
-  {% endfor %}
-</ul>
+    {% endif %}
 
-{% endblock %}
+    {%for review in reviews if review.user_id!=my_review.user_id%}
+    <hr>
+    <div class="review">
+      <p><strong>Käyttäjä: <a href = "/user/{{review.user_id}}">{{review.username}}</a></strong></p>
+      <p>{{review.rating}}/5</p>
+      <p>{{review.comment}}</p>
+      {%endfor%}
+    </div>
+</div>
+{% endif %}
+{%endblock%}

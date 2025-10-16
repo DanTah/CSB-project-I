@@ -5,6 +5,8 @@ body {
   background-color: lightblue;
 }
 
+/* CSS for listing recipes */
+
 .recipe-list {
     display: flex;
     flex-direction: column;
@@ -22,11 +24,72 @@ body {
     margin: 5px 0;
 }
 
+/* CSS for classes */
+
 .classes {
-    background-color: lightcyan;
+    --status: attr(data-status type(<custom-ident>));
+    background-color: if(
+        style(--status:Juhla): #a7c957;
+        style(--status:Kulttuuri): #d4e09b;
+        style(--status:Ruokavalio): #cbdfbd;
+        style(--status:Lisäkategoria):#f6f4d2;
+        else: #f19c79);
     border: 1px solid green;
     border-radius: 5px;
     padding: 5px;
     margin-top: 5px;
     display: inline-block;
+}
+
+/* CSS for images */
+
+img.resize {
+    width: 550px;
+    height: auto;
+}
+
+/* CSS for ingredients and instructions */
+
+.recipe-container {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.ingredients, .instructions {
+    min-width: 250px;
+    margin-bottom: 10px;
+}
+
+.ingredients li {
+    margin: 15px 0;
+}
+
+.instructions p {
+    line-height: 1.6;
+}
+
+/* CSS for listing reviews */
+
+.review-section {
+    margin-top: 20px;
+    background-color: #fffbf7;
+    border: 2px solid green;
+    border-radius: 5px;
+    padding: 20px;
+
+.review {
+    margin-bottom: 15px;
+}
+
+.review-header {
+    display: flex;
+    column-gap: 475px;
+}
+
+.review p {
+    margin: 8px;
+}
+
+hr {
+    margin: 1em;
 }

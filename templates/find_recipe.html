@@ -14,11 +14,25 @@
 
 {%if query%}
 <h3>Hakutulokset:</h3>
-<ul>
+<div class="recipe-list">
   {%for recipe in results%}
-  <li><a href="/recipe/{{recipe.id}}">{{recipe.title}}</a></li>
+  <div class="recipe-card">
+    <h3><a href = "/recipe/{{recipe.id}}">{{recipe.title}}</a></h3>
+    <p>
+      Kirjoittaja: <a href = "user/{{recipe.user_id}}">{{recipe.username}}</a>
+    </p>
+      {% for class, options in classes[recipe.id].items()%}
+      {%for option in options%}
+      <p class="classes" data-status="{{class}}">{{option}} </p>
+      {%endfor%}
+      {%endfor%}
+    </p>
+<!--    <p>
+      Arvio
+    </p> -->
+  </div>
   {%endfor%}
-</ul>
+</div>
 {%endif%}
 
 {% endblock %}
