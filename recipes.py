@@ -42,6 +42,16 @@ def get_reviews(recipe_id):
              ORDER BY reviews.id DESC"""
     return db.query(sql, [recipe_id])
 
+def get_avg_rating(recipe_id):
+    sql = """SELECT avg(rating) FROM (SELECT rating FROM reviews where recipe_id = ?)"""
+    result = db.query(sql,[recipe_id])[0][0]
+    if result:
+        if result.is_integer():
+            return int(result)
+        return round(result,2)
+    return None
+
+
 def get_review(recipe_id,user_id):
     sql = """SELECT users.id user_id, users.username, reviews.id review_id, reviews.rating, reviews.comment, reviews.date
              FROM users, reviews
@@ -82,10 +92,13 @@ def get_classes_in_recipe(recipe_id):
     return classes
 
 def get_recipes():
-    sql = """SELECT recipes.id, recipes.title, users.id user_id, users.username
-          FROM recipes, users
-          WHERE recipes.user_id = users.id
-          ORDER BY recipes.id DESC"""
+    sql = """SELECT recipes.id, recipes.title, recipes.recipe_time, users.id user_id, users.username,
+             CASE WHEN AVG(reviews.rating) = CAST(AVG(reviews.rating) AS INTEGER) THEN AVG(reviews.rating) ELSE ROUND(AVG(reviews.rating),2) END AS avg_rating
+             FROM users, recipes
+             LEFT JOIN reviews
+             ON recipes.id = reviews.recipe_id AND recipes.user_id = users.id
+             GROUP BY recipes.id
+             ORDER BY recipes.id DESC"""
     return db.query(sql)
 
 def get_recipe(recipe_id):
@@ -115,8 +128,6 @@ def update_recipe(recipe_id, title, recipe_time, ingredients, instructions, clas
     for title, value in classes:
         db.execute(sql, [recipe_id, title, value])
 
-
-
 def remove_recipe(recipe_id):
     sql = """DELETE FROM classes_in_recipe WHERE recipe_id = ?"""
     db.execute(sql,[recipe_id])
@@ -124,9 +135,16 @@ def remove_recipe(recipe_id):
     db.execute(sql,[recipe_id])
 
 def find_recipes(query):
-    sql = """SELECT recipes.id, recipes.title, users.id user_id, users.username
+    sql = """SELECT recipes.id, recipes.recipe_time, recipes.title, users.id user_id, users.username, CASE WHEN AVG(reviews.rating) = CAST(AVG(reviews.rating) AS INTEGER) THEN AVG(reviews.rating) ELSE ROUND(AVG(reviews.rating),2) END AS avg_rating
              FROM recipes, users
+             LEFT JOIN reviews
+             ON recipes.id = reviews.recipe_id AND recipes.user_id = users.id
              WHERE recipes.user_id = users.id AND (LOWER(recipes.title) like LOWER(('%') || ? || ('%'))
-             OR LOWER(recipes.ingredients) like LOWER(('%') || ? || ('%')))
+             OR LOWER(recipes.ingredients) like LOWER(('%') || ? || ('%'))
+             OR recipes.id in
+             (SELECT recipe_id
+              FROM classes_in_recipe
+              WHERE LOWER(value) like LOWER(('%') || ? || ('%'))))
+             GROUP BY recipes.id
              ORDER BY recipes.id DESC"""
-    return db.query(sql,[query,query])
+    return db.query(sql,[query,query,query])

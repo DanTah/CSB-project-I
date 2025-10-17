@@ -26,8 +26,17 @@
 <p class="classes" data-status="{{title}}">{{option}}</p>
 {%endfor%}
 {%endfor%}
-<h3>Valmistusaika</h3>
-<p>Valmistusaika: {{recipe.recipe_time}} minuuttia</p>
+<div class = recipe-container>
+  <div class = time>
+    <p><strong>Valmistusaika:</strong> {{recipe.recipe_time}} minuuttia</p>
+  </div>
+  {%if reviews%}
+  <div class = avg-rating>
+    <p><strong>Keskimääräinen arvio:</strong> {{recipe_rating}}/5 <a href=#reviews>({{reviews|length}} arviota)</a></p>
+  </div>
+  {%endif%}
+</div>
+<hr />
 <div class="recipe-container">
   <div class="ingredients">
     <h3>Ainekset:</h3>
@@ -85,8 +94,8 @@
       <p><strong>Käyttäjä: <a href = "/user/{{review.user_id}}">{{review.username}}</a></strong></p>
       <p>{{review.rating}}/5</p>
       <p>{{review.comment}}</p>
-      {%endfor%}
     </div>
+    {%endfor%}
 </div>
 {% endif %}
 {%endblock%}

@@ -10,8 +10,16 @@
   <div class="recipe-card">
     <h3><a href = "/recipe/{{recipe.id}}">{{recipe.title}}</a></h3>
     <p>
-      Kirjoittaja: <a href = "user/{{recipe.user_id}}">{{recipe.username}}</a>
+      <strong>Kirjoittaja:</strong> <a href = "user/{{recipe.user_id}}">{{recipe.username}}</a>
     </p>
+    <p>
+      <strong>Valmistusaika:</strong> {{recipe.recipe_time}} minuuttia
+    </p>
+    {% if recipe.avg_rating %}
+    <p>
+      <strong>Arvio:</strong> {{recipe.avg_rating}}/5
+    </p>
+    {% endif %}
       {% for class, options in classes[recipe.id].items()%}
       {%for option in options%}
       <p class="classes" data-status="{{class}}">{{option}} </p>

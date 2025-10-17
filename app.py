@@ -145,10 +145,11 @@ def show_recipe(recipe_id):
         abort(404)
     classes = recipes.get_classes_in_recipe(recipe_id)
     reviews = recipes.get_reviews(recipe_id)
+    recipe_rating = recipes.get_avg_rating(recipe_id)
     my_review = None
     if "user_id" in session:
         my_review = recipes.get_review(recipe_id,session["user_id"])
-    return render_template("show_recipe.html", recipe = recipe, reviews = reviews, my_review = my_review, classes = classes)
+    return render_template("show_recipe.html", recipe = recipe, reviews = reviews, recipe_rating = recipe_rating, my_review = my_review, classes = classes)
 
 @app.route("/edit_recipe/<int:recipe_id>")
 def edit_recipe(recipe_id):
