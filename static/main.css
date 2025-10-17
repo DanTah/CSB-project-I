@@ -2,16 +2,19 @@ body {
   margin: auto;
   max-width: 50em;
   font-family: sans-serif;
-  background-color: lightblue;
+  background-color: lightblue
 }
 
 /*CSS for notifications*/
 
 .info {
+  --status: attr(data-status type(virhe));
   border: 2px solid black;
   margin: 1em;
   padding: 0.5em;
-  background-color: blue;
+  background-color: if(
+        style(--status:virhe): red;
+        else: green);
   color: white;
 }
 
@@ -63,11 +66,10 @@ img.resize {
 
 .recipe-container {
     display: flex;
-    justify-content: space-evenly;
 }
 
 .ingredients, .instructions {
-    min-width: 250px;
+    min-width: 350px;
     margin-bottom: 10px;
 }
 
@@ -75,9 +77,19 @@ img.resize {
     margin: 15px 0;
 }
 
+.ingredients ul {
+    max-width: 250px;
+    overflow-wrap: break-word;
+}
+
 .instructions p {
     line-height: 1.6;
 }
+
+.time, .avg-rating {
+    margin-right: 50px;
+}
+
 
 /* CSS for listing reviews */
 

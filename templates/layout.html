@@ -31,7 +31,11 @@
   {% with messages = get_flashed_messages() %}
   {% if messages %}
   {% for message in messages %}
+  {% if "VIRHE" in message %}
+  <p class="info" data-status="virhe"><strong>{{message}}</strong></p>
+  {% else %}
   <p class="info"><strong>{{message}}</strong></p>
+  {% endif %}
   {% endfor %}
   {% endif %}
   {% endwith %}
