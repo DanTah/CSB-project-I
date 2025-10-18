@@ -9,10 +9,21 @@ def get_user(user_id):
     return None
 
 def get_recipes(user_id):
-    sql = """SELECT id, title
-             FROM recipes
-             WHERE user_id = ?
-             ORDER BY id"""
+    sql = """SELECT recipes.id,
+                    recipes.title,
+                    recipes.recipe_time,
+                    users.id user_id,
+                    users.username,
+                    CASE WHEN AVG(reviews.rating) = CAST(AVG(reviews.rating) AS INTEGER)
+                         THEN CAST(AVG(reviews.rating) AS INTEGER)
+                         ELSE ROUND(AVG(reviews.rating),2)
+                    END AS avg_rating
+             FROM users, recipes
+             LEFT JOIN reviews
+             ON recipes.id = reviews.recipe_id
+             WHERE recipes.user_id = users.id AND users.id = ?
+             GROUP BY recipes.id
+             ORDER BY recipes.id DESC"""
     return db.query(sql,[user_id])
 
 def create_user(username, password):
