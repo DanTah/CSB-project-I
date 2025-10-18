@@ -8,7 +8,7 @@
 
 {% if recipe.has_image %}
 <p> Reseptin nykyinen kuva:</p>
-<img class ="resize" src="/image/{{recipe.id}}" />
+<img class ="resize" src="/image/{{recipe.id}}" alt="Reseptin kuva"/>
 {% else %}
 <p>Reseptillä "{{recipe.title}}" ei ole vielä kuvaa</p>
 {% endif %}
