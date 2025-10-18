@@ -132,7 +132,8 @@ def get_recipes():
                     END AS avg_rating
              FROM users, recipes
              LEFT JOIN reviews
-             ON recipes.id = reviews.recipe_id AND recipes.user_id = users.id
+             ON recipes.id = reviews.recipe_id
+             WHERE recipes.user_id = users.id
              GROUP BY recipes.id
              ORDER BY recipes.id DESC"""
     return db.query(sql)
