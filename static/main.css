@@ -118,3 +118,38 @@ img.resize {
 hr {
     margin: 1em;
 }
+
+/* CSS for checkboxes */
+
+.checkbox-group {
+    display: flex;
+}
+
+.checkbox-column {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+}
+
+.checkbox-column p {
+    margin-bottom: 8px
+}
+
+.checkbox-column label {
+    margin: 6px 0;
+}
+
+input[type="checkbox"] {
+    margin-right: 8px;
+}
+
+.ingredients{
+    margin-top: 20px;
+}
+
+.note {
+    font-size: 0.9em; /* Pieni koko */
+    color: #555; /* Harmaa väri */
+    margin-top: -10px; /* Vähennetään tilaa ylle */
+    margin-bottom: 20px; /* Lisää tilaa alapuolelle */
+}

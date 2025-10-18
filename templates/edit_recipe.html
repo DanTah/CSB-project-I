@@ -14,18 +14,22 @@
   </p>
 
   <p><strong>Valitse reseptillesi sopivat kategoriat </p></strong>
-  {% for class in all_classes %}
-  {% if class != "Vaikeustaso" %}
-  <p>
-    {{ class }}: <br />
-    {% for option in all_classes[class] %}
-    {%  if option in classes[class]  %}
-    <input type = "checkbox" name = "classes" value = "{{ class }}:{{ option }}" checked/> {{ option }}
-    {%  else  %}
-    <input type = "checkbox" name = "classes" value = "{{ class }}:{{ option }}"/> {{ option }}
-    {%  endif  %}
-    {% endfor %}
-  {% else %}
+
+  <div class="checkbox-group">
+    {% for class in all_classes %}
+    {% if class != "Vaikeustaso" %}
+    <div class="checkbox-column">
+      <p><strong>{{ class }}</strong></p>
+      {% for option in all_classes[class] %}
+      {%  if option in classes[class]  %}
+      <label><input type = "checkbox" name = "classes" value = "{{ class }}:{{ option }}" checked/> {{ option }}</label>
+      {%  else  %}
+      <label><input type = "checkbox" name = "classes" value = "{{ class }}:{{ option }}"/> {{ option }}</label>
+      {% endif %}
+      {% endfor %}
+    </div>
+    {% else %}
+  </div>
   <p>
     {{ class }}: <br />
     <select name = "classes">
@@ -47,10 +51,10 @@
     <input type="number" name ="recipe_time" min="1" max = "999" step = "1" value = "{{recipe.recipe_time}}" required/> minuuttia
   </p>
 
-  <p>
+  <p class="ingredients">
     Ainekset: <br />
-    <textarea class = "ingredients" name="ingredients" rows = "5" cols = "40" maxlength = 1000 required>{{recipe.ingredients}}</textarea>
-    <small>Erottele ainesosat pilkulla. </small>
+    <textarea name="ingredients" rows = "5" cols = "40" maxlength = 1000 required>{{recipe.ingredients}}</textarea>
+    <p class="note">Erottele ainesosat pilkulla. </p>
   </p>
 
   <p>
