@@ -193,6 +193,7 @@ def edit_review(recipe_id,review_id):
                 abort(403)
             date = datetime.today().strftime('%d.%m.%Y')
             recipes.update_review(review_id,recipe_id, user_id, rating, comment, date)
+            flash("Arvio on muokattu onnistuneesti")
             return redirect("/recipe/"+str(recipe_id))
 
 
@@ -240,6 +241,7 @@ def update_recipe():
                 abort(403)
             classes.append((class_title, class_value))
     recipes.update_recipe(recipe_id, title, recipe_time, ingredients, instructions, classes)
+    flash("Resepti on päivitetty onnistuneesti")
     return redirect("/recipe/"+str(recipe_id))
 
 @app.route("/remove_recipe/<int:recipe_id>", methods = ["GET", "POST"])
