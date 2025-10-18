@@ -135,7 +135,7 @@ hr {
     margin-bottom: 8px
 }
 
-.checkbox-column label {
+.checkbox-item {
     margin: 6px 0;
 }
 
@@ -145,12 +145,12 @@ input[type="checkbox"] {
 
 /* CSS for textarea note*/
 
-.ingredients{
+.ingredients {
     margin-top: 20px;
 }
 
 .note {
     font-size: 0.9em;
-    color: #555;
+    color: DimGray;
     margin-top: -10px;
     margin-bottom: 20px;
