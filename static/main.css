@@ -143,13 +143,14 @@ input[type="checkbox"] {
     margin-right: 8px;
 }
 
+/* CSS for textarea note*/
+
 .ingredients{
     margin-top: 20px;
 }
 
 .note {
-    font-size: 0.9em; /* Pieni koko */
-    color: #555; /* Harmaa väri */
-    margin-top: -10px; /* Vähennetään tilaa ylle */
-    margin-bottom: 20px; /* Lisää tilaa alapuolelle */
-}
+    font-size: 0.9em;
+    color: #555;
+    margin-top: -10px;
+    margin-bottom: 20px;
