@@ -32,7 +32,7 @@
   </div>
   {%if reviews%}
   <div class = avg-rating>
-    <p><strong>Keskimääräinen arvio:</strong> {{recipe_rating}}/5 <a href=#reviews>({{reviews|length}} arviota)</a></p>
+    <p><strong>Keskimääräinen arvio:</strong> {{recipe_rating}}/5 ({{reviews|length}} arviota)</p>
   </div>
   {%endif%}
 </div>
@@ -75,7 +75,7 @@
 
 
 {%if reviews%}
-<div class="review-section">
+<div class="review-section" id="#reviews">
   <h2>Arviot</h2>
     {% if my_review %}
     <div class="review">
@@ -83,7 +83,8 @@
         <p><strong>Käyttäjä: <a href = "/user/{{my_review.user_id}}">{{my_review.username}}</a></strong></p>
         <p><a href = "/recipe/{{recipe.id}}/edit_review/{{my_review.review_id}}">Muokkaa</a></p>
       </div>
-      <p>{{my_review.rating}}/5</p>
+      <p><strong>Lisätty:</strong> {{my_review.date}}</p>
+      <p><strong>Arvosana:</strong> {{my_review.rating}}/5</p>
       <p>{{my_review.comment}}</p>
     </div>
 
@@ -93,7 +94,8 @@
     <hr>
     <div class="review">
       <p><strong>Käyttäjä: <a href = "/user/{{review.user_id}}">{{review.username}}</a></strong></p>
-      <p>{{review.rating}}/5</p>
+      <p><strong>Lisätty:</strong> {{review.date}}</p>
+      <p><strong>Arvosana: </strong>{{review.rating}}/5</p>
       <p>{{review.comment}}</p>
     </div>
     {%endfor%}
