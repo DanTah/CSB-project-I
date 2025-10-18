@@ -11,8 +11,8 @@
 
 <form action="/recipe/{{recipe.id}}/edit_review/{{my_review.review_id}}" method="post">
   <p>
-    Arvosana:
-    <select name = "rating" required>
+    <label for="rating">Arvosana:</label>
+    <select id="rating" name = "rating" required>
       <option value = "">(valitse)</option>
       {% for rating in range(1,6) %}
       {%  if rating == my_review.rating  %}

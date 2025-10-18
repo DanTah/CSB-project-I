@@ -6,11 +6,11 @@
 <h2>Uusi resepti</h2>
 <form action="/create_recipe" method="post" enctype="multipart/form-data">
   <p>
-    Reseptin nimi: <br />
-    <input type="text" name="title" size = "30" maxlength = "65" required/>
+    <label for="title">Reseptin nimi:</label> <br />
+    <input type="text" id="title" name="title" size = "30" maxlength = "65" required/>
   </p>
   <p>
-    Valitse kuva (tiedostopääte .jpg, .jpeg tai .png): <input type="file" name="image" accept=".jpg, .jpeg, .png" />
+    <label for="image">Valitse kuva (tiedostopääte .jpg, .jpeg tai .png): <input type="file" id="image" name="image" accept=".jpg, .jpeg, .png" />
   </p>
   <p><strong>Valitse reseptillesi sopivat kategoriat </p></strong>
   <div class="checkbox-group">
@@ -19,14 +19,16 @@
     <div class="checkbox-column">
       <p><strong>{{ class }}</strong></p>
       {% for option in classes[class] %}
-      <label><input type = "checkbox" name = "classes" value = "{{ class }}:{{ option }}"/>{{ option }}</label>
+      <div class="checkbox-item">
+        <input type = "checkbox" id="option{{ option }}" name = "classes" value = "{{ class }}:{{ option }}"/><label for="option{{ option }}">{{ option }}</label>
+      </div>
       {% endfor %}
     </div>
     {% else %}
   </div>
   <p>
-    {{ class }}: <br />
-    <select name = "classes">
+    <label for="class{{ class }}">{{ class }}:</label> <br />
+    <select id ="class{{ class }}" name = "classes">
     <option value = "">(valitse)</option>
     {% for option in classes[class] %}
     <option value = "{{ class }}:{{ option }}">{{ option }}</option>
@@ -36,17 +38,17 @@
   {% endif %}
   {% endfor %}
   <p>
-    Valmistusaika: <br />
-    <input type="number" name ="recipe_time" min="1" max = "999" step = "1" required/> minuuttia
+    <label for="recipe_time">Valmistusaika:</label> <br />
+    <input type="number" id="recipe_time" name ="recipe_time" min="1" max = "999" step = "1" required/> minuuttia
   </p>
   <p class = "ingredients">
-    Ainekset: <br />
-    <textarea name="ingredients" rows = "5" cols = "40" maxlength = 1000 required></textarea>
+    <label for="ingredients">Ainekset:</label> <br />
+    <textarea id="ingredients" name="ingredients" rows="5" cols="40" maxlength=1000 required></textarea>
     <p class="note">Erottele ainesosat pilkulla. </p>
   </p>
   <p>
-    Ohjeet: <br />
-    <textarea name="instructions" rows = "8" cols = "60" maxlength = 3000 required></textarea>
+    <label for="instructions">Ohjeet:</label> <br />
+    <textarea id="instructions" name="instructions" rows="8" cols="60" maxlength=3000 required></textarea>
   </p>
   <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
   <input type="submit" value="Luo resepti" />

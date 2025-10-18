@@ -15,7 +15,7 @@
 
 <form action="/new_image/{{recipe.id}}" method="post" enctype="multipart/form-data">
 <p>
-  Valitse uusi kuva (tiedostopääte .jpg, .jpeg tai .png): <input type="file" name="image" accept=".png, .jpg,
+  <label for="image">Valitse uusi kuva (tiedostopääte .jpg, .jpeg tai .png):</label> <input type="file" id="image" name="image" accept=".png, .jpg,
     .jpeg" />
 </p>
 <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />

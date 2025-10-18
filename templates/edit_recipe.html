@@ -9,8 +9,8 @@
 
 <form action="/update_recipe" method="post">
   <p>
-    Reseptin nimi: <br />
-    <input type="text" name="title" size = "30" value = "{{recipe.title}}" maxlength = "65" required/>
+    <label for="title">Reseptin nimi:</label> <br />
+    <input type="text" id="title" name="title" size = "30" value = "{{recipe.title}}" maxlength = "65" required/>
   </p>
 
   <p><strong>Valitse reseptillesi sopivat kategoriat </p></strong>
@@ -21,18 +21,20 @@
     <div class="checkbox-column">
       <p><strong>{{ class }}</strong></p>
       {% for option in all_classes[class] %}
-      {%  if option in classes[class]  %}
-      <label><input type = "checkbox" name = "classes" value = "{{ class }}:{{ option }}" checked/> {{ option }}</label>
-      {%  else  %}
-      <label><input type = "checkbox" name = "classes" value = "{{ class }}:{{ option }}"/> {{ option }}</label>
-      {% endif %}
+      <div class="checkbox-item">
+        {%  if option in classes[class]  %}
+        <input type = "checkbox" id="option{{ option }}" name = "classes" value = "{{ class }}:{{ option }}" checked/> <label for="option{{ option }}">{{ option }}</label>
+        {%  else  %}
+        <input type = "checkbox" id="option{{ option }}" name = "classes" value = "{{ class }}:{{ option }}"/> <label for="option{{ option }}">{{ option }}</label>
+        {% endif %}
+      </div>
       {% endfor %}
     </div>
     {% else %}
   </div>
   <p>
-    {{ class }}: <br />
-    <select name = "classes">
+    <label for="class{{ class }}">{{ class }}:</label> <br />
+    <select id="class{{ class }}" name = "classes">
       <option value = "">(valitse)</option>
       {% for option in all_classes[class] %}
       {%  if option in classes[class]  %}
@@ -47,19 +49,19 @@
   {% endfor %}
 
   <p>
-    Valmistusaika: <br />
-    <input type="number" name ="recipe_time" min="1" max = "999" step = "1" value = "{{recipe.recipe_time}}" required/> minuuttia
+    <label for="recipe_time">Valmistusaika:</label> <br />
+    <input type="number" id="recipe_time" name ="recipe_time" min="1" max = "999" step = "1" value = "{{recipe.recipe_time}}" required/> minuuttia
   </p>
 
   <p class="ingredients">
-    Ainekset: <br />
-    <textarea name="ingredients" rows = "5" cols = "40" maxlength = 1000 required>{{recipe.ingredients}}</textarea>
+    <label for="ingredients">Ainekset:</label> <br />
+    <textarea id="ingredients" name="ingredients" rows = "5" cols = "40" maxlength = 1000 required>{{recipe.ingredients}}</textarea>
     <p class="note">Erottele ainesosat pilkulla. </p>
   </p>
 
   <p>
-    Ohjeet: <br />
-    <textarea name="instructions" rows = "8" cols = "60" maxlength = 3000 required>{{recipe.instructions}}</textarea>
+    <label for="instructions">Ohjeet:</label> <br />
+    <textarea id="instructions" name="instructions" rows = "8" cols = "60" maxlength = 3000 required>{{recipe.instructions}}</textarea>
   </p>
   <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
   <input type="hidden" name="recipe_id" value = "{{recipe.id}}"/>
