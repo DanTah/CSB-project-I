@@ -7,9 +7,16 @@ import config
 import recipes
 import users
 import markupsafe
+import secrets
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
+
+def check_csrf():
+    if "csrf_token" not in request.form:
+        abort(403)
+    if request.form["csrf_token"] != session["csrf_token"]:
+        abort(403)
 
 @app.template_filter()
 def show_lines(content):
@@ -43,6 +50,7 @@ def new_recipe():
 @app.route("/create_review",methods = ["POST"])
 def create_review():
     require_login()
+    check_csrf()
     rating = request.form["rating"]
     if not (is_int(rating) and  1<=int(rating)<=5):
         abort(403)
@@ -78,6 +86,7 @@ def new_image(recipe_id):
     if request.method == "GET":
         return render_template("new_image.html", recipe = recipe)
     if request.method == "POST":
+        check_csrf()
         file = request.files["image"]
         image = file.read()
         if image:
@@ -96,6 +105,7 @@ def new_image(recipe_id):
 @app.route("/create_recipe",methods = ["POST"])
 def create_recipe():
     require_login()
+    check_csrf()
     title = request.form["title"]
     if not title or len(title)>65:
         abort(403)
@@ -178,6 +188,7 @@ def edit_review(recipe_id,review_id):
     if request.method == "GET":
         return render_template("edit_review.html", my_review = my_review, recipe = recipe)
     if request.method == "POST":
+        check_csrf()
         if "remove" in request.form:
             recipes.remove_review(review_id)
             return redirect("/recipe/"+str(recipe_id))
@@ -211,6 +222,7 @@ def show_user(user_id):
 @app.route("/update_recipe",methods = ["POST"])
 def update_recipe():
     require_login()
+    check_csrf()
     recipe_id = request.form["recipe_id"]
     recipe = recipes.get_recipe(recipe_id)
     if not recipe:
@@ -255,6 +267,7 @@ def remove_recipe(recipe_id):
     if request.method == "GET":
         return render_template("remove_recipe.html",recipe = recipe)
     if request.method == "POST":
+        check_csrf()
         if "remove" in request.form:
             recipes.remove_recipe(recipe_id)
             flash("Resepti on poistettu onnistuneesti")
@@ -295,6 +308,7 @@ def login():
         if user_id:
             session["user_id"] = user_id
             session["username"] = username
+            session["csrf_token"] = secrets.token_hex(16)
             return redirect("/")
         else:
             flash("VIRHE: väärä tunnus tai salasana")

@@ -48,6 +48,7 @@
     Ohjeet: <br />
     <textarea name="instructions" rows = "8" cols = "60" maxlength = 3000 required></textarea>
   </p>
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
   <input type="submit" value="Luo resepti" />
 </form>
 {% endblock %}

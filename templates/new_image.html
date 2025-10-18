@@ -18,6 +18,7 @@
   Valitse uusi kuva (tiedostopääte .jpg, .jpeg tai .png): <input type="file" name="image" accept=".png, .jpg,
     .jpeg" />
 </p>
+<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
 <input type="submit" value="Tallenna muutokset" />
 </form>
 <p>

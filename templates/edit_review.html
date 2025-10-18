@@ -25,6 +25,7 @@
   </p>
 
   <textarea name = "comment" rows = "8" cols = "60" placeholder = "Kommentoi reseptiä..." maxlength = 2000 required>{{my_review.comment}}</textarea> <br />
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
   <input type = "submit" name = "update" value = "Tallenna muutokset" />
   <input type = "submit" name = "remove" value = "Poista arvio" />
   <input type = "submit" name = "back" value = "Peruuta" />

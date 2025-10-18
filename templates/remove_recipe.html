@@ -10,6 +10,7 @@
 <p> Haluatko varmasti poistaa reseptin "{{recipe.title}}"? </p>
 
 <form action="/remove_recipe/{{recipe.id}}" method="post">
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
   <input type="submit" name="remove" value="Poista resepti">
   <input type="submit" name="back" value="Peruuta">
 </form>
