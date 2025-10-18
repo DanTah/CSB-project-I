@@ -17,7 +17,7 @@
     </p>
     {% if recipe.avg_rating %}
     <p>
-      <strong>Arvio:</strong> {{recipe.avg_rating}}/5
+      <strong>Keskimääräinen arvio:</strong> {{recipe.avg_rating}}/5
     </p>
     {% endif %}
       {% for class, options in classes[recipe.id].items()%}
@@ -25,9 +25,6 @@
       <p class="classes" data-status="{{class}}">{{option}} </p>
       {%endfor%}
       {%endfor%}
-<!--    <p>
-      Arvio
-    </p> -->
   </div>
   {%endfor%}
 </div>

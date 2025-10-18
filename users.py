@@ -21,7 +21,9 @@ def create_user(username, password):
     db.execute(sql, [username, password_hash])
 
 def check_login(username, password):
-    sql = "SELECT id, password_hash FROM users WHERE username = ?"
+    sql = """SELECT id, password_hash
+             FROM users
+             WHERE username = ?"""
     result = db.query(sql, [username])
     if not result:
         return None
