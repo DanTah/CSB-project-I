@@ -57,14 +57,14 @@
 <h2>Arvioi resepti</h2>
 <form action = "/create_review" method = "post">
   <p>
-    Arvosana:
-    <select name = "rating" required>
+    <label for = "rating">Arvosana:</label>
+    <select id = "rating" name = "rating" required>
       <option value = "">(valitse)</option>
       {% for rating in range(1,6) %}
       <option value = "{{rating}}">{{rating}}</option>
       {% endfor %}
     </select>
-    </p>
+  </p>
   <textarea name = "comment" rows = "8" cols = "60" placeholder = "Kommentoi reseptiä..." maxlength = 2000 required></textarea>
   <br />
   <input type = "hidden" name = "recipe_id" value = "{{recipe.id}}"/>
