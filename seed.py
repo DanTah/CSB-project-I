@@ -40,7 +40,3 @@ for i in range(1, review_count + 1):
 
 db.commit()
 db.close()
-
-
-
-

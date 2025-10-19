@@ -1,5 +1,4 @@
 import sqlite3
-import time
 import secrets
 from datetime import datetime
 import math
@@ -7,7 +6,7 @@ import math
 import markupsafe
 from flask import Flask
 from flask import abort, redirect, render_template, request, \
-    session, flash, make_response, g
+    session, flash, make_response
 
 import db
 import config
