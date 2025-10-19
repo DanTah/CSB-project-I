@@ -35,3 +35,6 @@ CREATE TABLE reviews (
     comment TEXT,
     date DATE
 );
+
+CREATE INDEX idx_user_recipes ON recipes (user_id);
+CREATE INDEX idx_recipe_reviews ON reviews (recipe_id);
