@@ -302,8 +302,7 @@ def remove_recipe(recipe_id):
             recipes.remove_recipe(recipe_id)
             flash("Resepti on poistettu onnistuneesti")
             return redirect("/")
-        else:
-            return redirect("/recipe/"+str(recipe_id))
+        return redirect("/recipe/"+str(recipe_id))
 
 @app.route("/user/<int:user_id>")
 def show_user(user_id):
@@ -357,9 +356,8 @@ def login():
             session["username"] = username
             session["csrf_token"] = secrets.token_hex(16)
             return redirect("/")
-        else:
-            flash("VIRHE: väärä tunnus tai salasana")
-            return redirect("/login")
+        flash("VIRHE: väärä tunnus tai salasana")
+        return redirect("/login")
 
 @app.route("/logout")
 def logout():
@@ -373,10 +371,10 @@ def require_login():
         abort(403)
 
 def is_int(value):
-  if value is None:
-      return False
-  try:
-      int(value)
-      return True
-  except:
-      return False
+    if value is None:
+        return False
+    try:
+        int(value)
+        return True
+    except ValueError:
+        return False
