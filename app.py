@@ -1,14 +1,18 @@
 import sqlite3
+import secrets
 from datetime import datetime
+
+import markupsafe
 from flask import Flask
 from flask import abort, redirect, render_template, request, \
     session, flash, make_response
+
 import db
 import config
 import recipes
 import users
-import markupsafe
-import secrets
+
+
 
 
 app = Flask(__name__)
