@@ -60,7 +60,7 @@ def create_recipe():
     if not title or len(title) > 65:
         abort(403)
     recipe_time = request.form["recipe_time"]
-    if not (recipe_time and is_int(recipe_time) and /
+    if not (recipe_time and is_int(recipe_time) and \
             1 <= int(recipe_time) <= 999):
         abort(403)
     ingredients = request.form["ingredients"]
@@ -250,7 +250,7 @@ def update_recipe():
     if not title or len(title) > 65:
         abort(403)
     recipe_time = request.form["recipe_time"]
-    if not (recipe_time and is_int(recipe_time) and /
+    if not (recipe_time and is_int(recipe_time) and \
             1 <= int(recipe_time) <= 999):
         abort(403)
     ingredients = request.form["ingredients"]
