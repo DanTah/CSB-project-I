@@ -106,13 +106,17 @@ img.resize {
     margin-bottom: 15px;
 }
 
+.review-section h2 {
+    text-align: center;
+}
+
 .review-header {
     display: flex;
     column-gap: 400px;
 }
 
 .review p {
-    margin: 8px;
+    margin-bottom: 0px;
 }
 
 hr {

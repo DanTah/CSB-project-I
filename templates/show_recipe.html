@@ -52,7 +52,7 @@
   </div>
 </div>
 
-{% if session.user_id and session.user_id != recipe.user_id and not my_review %}
+{% if session.user_id and not my_review %}
 
 <h2>Arvioi resepti</h2>
 <form action = "/create_review" method = "post">
@@ -75,14 +75,19 @@
 
 
 {%if reviews%}
+
 <div class="review-section" id="#reviews">
   <h2>Arviot</h2>
+  <hr/>
     {% if my_review %}
     <div class="review">
       <div class = "review-header">
         <p><strong>Käyttäjä: <a href = "/user/{{my_review.user_id}}">{{my_review.username}}</a></strong></p>
         <p><a href = "/recipe/{{recipe.id}}/edit_review/{{my_review.review_id}}">Muokkaa</a></p>
       </div>
+      {% if my_review.user_id == recipe.user_id%}
+      <p>(reseptin luoja)</p>
+      {% endif %}
       <p><strong>Lisätty:</strong> {{my_review.date}}</p>
       <p><strong>Arvosana:</strong> {{my_review.rating}}/5</p>
       <p>{{my_review.comment}}</p>
@@ -94,6 +99,9 @@
     <hr>
     <div class="review">
       <p><strong>Käyttäjä: <a href = "/user/{{review.user_id}}">{{review.username}}</a></strong></p>
+      {% if review.user_id == recipe.user_id%}
+      <p>(reseptin luoja)</p>
+      {% endif %}
       <p><strong>Lisätty:</strong> {{review.date}}</p>
       <p><strong>Arvosana: </strong>{{review.rating}}/5</p>
       <p>{{review.comment}}</p>
