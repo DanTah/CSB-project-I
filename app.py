@@ -1,19 +1,18 @@
 import sqlite3
+import time
 import secrets
 from datetime import datetime
+import math
 
 import markupsafe
 from flask import Flask
 from flask import abort, redirect, render_template, request, \
-    session, flash, make_response
+    session, flash, make_response, g
 
 import db
 import config
 import recipes
 import users
-
-
-
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
@@ -31,18 +30,32 @@ def show_lines(content):
     return markupsafe.Markup(content)
 
 @app.route("/")
-def index():
-    all_recipes = recipes.get_recipes()
+@app.route("/<int:page>")
+def index(page = 1):
+    page_size = 10
+    recipe_count = recipes.recipe_count()
+    page_count = math.ceil(recipe_count/page_size)
+    page_count = max(page_count, 1)
+
+    if page < 1:
+        return redirect("/1")
+    if page > page_count:
+        return redirect("/" + str(page_count))
+
+    page_recipes = recipes.get_recipes(page, page_size)
+
     classes = {}
-    for recipe in all_recipes:
+    for recipe in page_recipes:
         classes[recipe["id"]] = recipes.get_recipe_classes(recipe["id"])
-    return render_template("index.html", recipes = all_recipes,
-                            classes = classes)
+    return render_template("index.html", recipes = page_recipes,
+                           classes = classes, page = page,
+                           page_count = page_count)
 
 @app.route("/find_recipe")
 def find_recipe():
+    page_size = 50
     query = request.args.get("query")
-    results = recipes.find_recipes(query) if query else []
+    results = recipes.find_recipes(query, page_size) if query else []
     classes = {}
     for recipe in results:
         classes[recipe["id"]] = recipes.get_recipe_classes(recipe["id"])
@@ -108,20 +121,34 @@ def create_recipe():
     return redirect("/recipe/"+str(recipe_id))
 
 @app.route("/recipe/<int:recipe_id>")
-def show_recipe(recipe_id):
+@app.route("/recipe/<int:recipe_id>/<int:page>")
+def show_recipe(recipe_id, page = 1):
     recipe = recipes.get_recipe(recipe_id)
     if not recipe:
         abort(404)
     classes = recipes.get_recipe_classes(recipe_id)
-    reviews = recipes.get_reviews(recipe_id)
+
+    page_size = 10
+    review_count = recipes.review_count(recipe_id)
+    page_count = math.ceil(review_count/page_size)
+    page_count = max(page_count, 1)
+
+    if page < 1:
+        return redirect("/recipe/" + str(recipe_id) + "/1")
+    if page > page_count:
+        return redirect("/recipe/" + str(recipe_id) + "/" + str(page_count))
+
+    page_reviews = recipes.get_reviews(recipe_id, page, page_size)
     recipe_rating = recipes.get_avg_rating(recipe_id)
 
     my_review = None
     if "user_id" in session:
         my_review = recipes.get_review(recipe_id, session["user_id"])
     return render_template("show_recipe.html", recipe = recipe,
-                           reviews = reviews, recipe_rating = recipe_rating,
-                           my_review = my_review, classes = classes)
+                           reviews = page_reviews,
+                           recipe_rating = recipe_rating,my_review = my_review,
+                           classes = classes, page = page,
+                           page_count = page_count)
 
 @app.route("/create_review", methods = ["POST"])
 def create_review():

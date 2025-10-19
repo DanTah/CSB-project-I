@@ -44,7 +44,7 @@ def add_review(recipe_id, user_id, rating, comment, date):
              VALUES (?, ?, ?, ?, ?)"""
     db.execute(sql, [recipe_id, user_id, rating, comment, date])
 
-def get_reviews(recipe_id):
+def get_reviews(recipe_id, page, page_size):
     sql = """SELECT users.id user_id,
                     users.username,
                     reviews.id review_id,
@@ -53,8 +53,11 @@ def get_reviews(recipe_id):
                     reviews.date
              FROM users, reviews
              WHERE reviews.recipe_id = ? AND reviews.user_id = users.id
-             ORDER BY reviews.id DESC"""
-    return db.query(sql, [recipe_id])
+             ORDER BY reviews.id DESC
+             LIMIT ? OFFSET ?"""
+    limit = page_size
+    offset = page_size * (page - 1)
+    return db.query(sql, [recipe_id, limit, offset])
 
 def get_avg_rating(recipe_id):
     sql = """SELECT avg(rating)
@@ -122,7 +125,19 @@ def get_recipe_classes(recipe_id):
         classes[title].append(value)
     return classes
 
-def get_recipes():
+def recipe_count():
+    sql = "SELECT count(id) FROM recipes"
+    result = db.query(sql)[0][0]
+    return result if result > 0 else 0
+
+def review_count(recipe_id):
+    sql = """SELECT count(id)
+             FROM reviews
+             WHERE recipe_id = ?"""
+    result = db.query(sql, [recipe_id])[0][0]
+    return result if result > 0 else 0
+
+def get_recipes(page,page_size):
     sql = """SELECT recipes.id,
                     recipes.title,
                     recipes.recipe_time,
@@ -138,8 +153,11 @@ def get_recipes():
              ON recipes.id = reviews.recipe_id
              WHERE recipes.user_id = users.id
              GROUP BY recipes.id
-             ORDER BY recipes.id DESC"""
-    return db.query(sql)
+             ORDER BY recipes.id DESC
+             LIMIT ? OFFSET ?"""
+    limit = page_size
+    offset = page_size * (page - 1)
+    return db.query(sql, [limit, offset])
 
 def get_recipe(recipe_id):
     sql = """SELECT u.id user_id,
@@ -177,7 +195,7 @@ def remove_recipe(recipe_id):
     sql = "DELETE FROM recipes WHERE id = ?"
     db.execute(sql, [recipe_id])
 
-def find_recipes(query):
+def find_recipes(query, page_size):
     sql = """SELECT recipes.id,
                     recipes.recipe_time,
                     recipes.title,
@@ -190,7 +208,7 @@ def find_recipes(query):
                     END AS avg_rating
              FROM recipes, users
              LEFT JOIN reviews
-             ON recipes.id = reviews.recipe_id AND recipes.user_id = users.id
+             ON recipes.id = reviews.recipe_id
              WHERE recipes.user_id = users.id
                 AND (LOWER(recipes.title)
                         LIKE LOWER(('%') || ? || ('%'))
@@ -201,5 +219,6 @@ def find_recipes(query):
                         FROM classes_in_recipe
                         WHERE LOWER(value) LIKE LOWER(('%') || ? || ('%'))))
              GROUP BY recipes.id
-             ORDER BY recipes.id DESC"""
-    return db.query(sql, [query, query, query])
+             ORDER BY recipes.id DESC
+             LIMIT ?"""
+    return db.query(sql, [query, query, query, page_size])
