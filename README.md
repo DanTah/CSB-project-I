@@ -12,25 +12,25 @@
 * Käyttäjä pystyy antamaan jokaiselle sovellukseen reseptille kommentin ja arvosanan. Reseptistä näytetään kommentit sekä arvosanat ja niiden keskiarvo.
 * Käyttäjä pystyy muokkaaamaan ja poistamaan antamiaan kommentteja ja arvosanoja.
 
-## Asennusohjeet sovelluksen testaamiseksi
-Kloonaa repositorio:
+## Installation Instructions for Testing the Application
+Clone the repository:
 ```
 git clone https://github.com/DanTah/reseptit.git
 ```
-Siirry kansioon `reseptit`:
+Navigate to the `reseptit` folder:
 ```
 cd reseptit
 ```
-Asenna `flask` -kirjasto:
+Install the `flask` library:
 ```
 pip install flask
 ```
-Luo tiedoston `schema.sql` avulla tietokanta tiedostoon `database.db` ja lisää tiedoston `init.sql` tiedot:
+Create the database `database.db` using the file `schema.sql` and insert the data from the file `init.sql`:
 ```
 sqlite3 database.db < schema.sql
 sqlite3 database.db < init.sql
 ```
-Nyt voit käynnistää sovelluksen:
+Now you can run the application:
 ```
 flask run
 ```
