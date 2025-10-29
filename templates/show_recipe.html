@@ -6,14 +6,14 @@
 <h2>{{recipe.title}}</h2>
 
 <p>
-  käyttäjältä <a href = "/user/{{recipe.user_id}}"> {{recipe.username}} </a>
+  from user <a href = "/user/{{recipe.user_id}}"> {{recipe.username}} </a>
 </p>
 
 {% if session.user_id == recipe.user_id %}
 <p>
-  <a href = "/edit_recipe/{{recipe.id}}">Muokkaa</a> |
-  <a href = "/new_image/{{recipe.id}}">Vaihda kuvaa</a> |
-  <a href = "/remove_recipe/{{recipe.id}}">Poista</a>
+  <a href = "/edit_recipe/{{recipe.id}}">Edit</a> |
+  <a href = "/new_image/{{recipe.id}}">Change image</a> |
+  <a href = "/remove_recipe/{{recipe.id}}">Delete</a>
 </p>
 {%endif%}
 
@@ -28,18 +28,18 @@
 {%endfor%}
 <div class = recipe-container>
   <div class = time>
-    <p><strong>Valmistusaika:</strong> {{recipe.recipe_time}} minuuttia</p>
+    <p><strong>Prep time:</strong> {{recipe.recipe_time}} minuuttia</p>
   </div>
   {%if reviews%}
   <div class = avg-rating>
-    <p><strong>Keskimääräinen arvio:</strong> {{recipe_rating}}/5 ({{reviews|length}} arviota)</p>
+    <p><strong>Average rating:</strong> {{recipe_rating}}/5 ({{reviews|length}} reviews)</p>
   </div>
   {%endif%}
 </div>
 <hr />
 <div class="recipe-container">
   <div class="ingredients">
-    <h3>Ainekset:</h3>
+    <h3>Ingredients:</h3>
     <ul>
       {%for ingredient in recipe.ingredients.split(",")%}
       <li> {{ingredient}}</li>
@@ -47,29 +47,29 @@
     </ul>
   </div>
   <div class="instructions">
-    <h3>Valmistusohjeet: </h3>
+    <h3>Instructions: </h3>
     <p>{{recipe.instructions | show_lines}}</p>
   </div>
 </div>
 
 {% if session.user_id and not my_review %}
 
-<h2>Arvioi resepti</h2>
+<h2>Review the recipe</h2>
 <form action = "/create_review" method = "post">
   <p>
-    <label for = "rating">Arvosana:</label>
+    <label for = "rating">Rating:</label>
     <select id = "rating" name = "rating" required>
-      <option value = "">(valitse)</option>
+      <option value = "">(Choose)</option>
       {% for rating in range(1,6) %}
       <option value = "{{rating}}">{{rating}}</option>
       {% endfor %}
     </select>
   </p>
-  <textarea name = "comment" rows = "8" cols = "60" placeholder = "Kommentoi reseptiä..." maxlength = 2000 required></textarea>
+  <textarea name = "comment" rows = "8" cols = "60" placeholder = "Comment on the recipe..." maxlength = 2000 required></textarea>
   <br />
   <input type = "hidden" name = "recipe_id" value = "{{recipe.id}}"/>
   <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
-  <input type = "submit" value = "Lähetä arvio" />
+  <input type = "submit" value = "Submit review" />
 </form>
 <br />
 {% endif %}
@@ -78,19 +78,19 @@
 {%if reviews%}
 
 <div class="review-section" id="#reviews">
-  <h2>Arviot</h2>
+  <h2>Reviews</h2>
   <hr/>
     {% if my_review %}
     <div class="review">
       <div class = "review-header">
-        <p><strong>Käyttäjä: <a href = "/user/{{my_review.user_id}}">{{my_review.username}}</a></strong></p>
-        <p><a href = "/recipe/{{recipe.id}}/edit_review/{{my_review.review_id}}">Muokkaa</a></p>
+        <p><strong>From user: <a href = "/user/{{my_review.user_id}}">{{my_review.username}}</a></strong></p>
+        <p><a href = "/recipe/{{recipe.id}}/edit_review/{{my_review.review_id}}">Edit</a></p>
       </div>
       {% if my_review.user_id == recipe.user_id%}
-      <p>(reseptin luoja)</p>
+      <p>(recipe creator)</p>
       {% endif %}
-      <p><strong>Lisätty:</strong> {{my_review.date}}</p>
-      <p><strong>Arvosana:</strong> {{my_review.rating}}/5</p>
+      <p><strong>Added:</strong> {{my_review.date}}</p>
+      <p><strong>Rating:</strong> {{my_review.rating}}/5</p>
       <p>{{my_review.comment}}</p>
     </div>
 
@@ -99,19 +99,19 @@
     {%for review in reviews if review.user_id!=my_review.user_id%}
     <hr>
     <div class="review">
-      <p><strong>Käyttäjä: <a href = "/user/{{review.user_id}}">{{review.username}}</a></strong></p>
+      <p><strong>From user: <a href = "/user/{{review.user_id}}">{{review.username}}</a></strong></p>
       {% if review.user_id == recipe.user_id%}
-      <p>(reseptin luoja)</p>
+      <p>(recipe creator)</p>
       {% endif %}
-      <p><strong>Lisätty:</strong> {{review.date}}</p>
-      <p><strong>Arvosana: </strong>{{review.rating}}/5</p>
+      <p><strong>Added:</strong> {{review.date}}</p>
+      <p><strong>Rating: </strong>{{review.rating}}/5</p>
       <p>{{review.comment}}</p>
     </div>
     {%endfor%}
 </div>
 <p>
   <a href="/recipe/{{recipe.id}}/{{ page - 1 }}">&lt;&lt;</a>
-  Sivu {{ page }}/{{ page_count }}
+  Page {{ page }}/{{ page_count }}
   <a href="/recipe/{{recipe.id}}/{{ page + 1 }}">&gt;&gt;</a>
 </p>
 <hr />

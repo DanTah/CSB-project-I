@@ -1,27 +1,27 @@
 {% extends "layout.html" %}
 
-{% block title %}Käyttäjä {{user.username}}{% endblock %}
+{% block title %}User {{user.username}}{% endblock %}
 
 {% block content %}
-<h2>Käyttäjä {{user.username}}</h2>
+<h2>User {{user.username}}</h2>
 <p>
-  Käyttäjä on luonut {{recipes|length}} reseptiä.
+  The user has created {{recipes|length}} recipes.
 </p>
-<h2> Käyttäjän reseptit: </h2>
+<h2> User's recipes: </h2>
 
 <div class="recipe-list">
   {%for recipe in recipes%}
   <div class="recipe-card">
     <h3><a href = "/recipe/{{recipe.id}}">{{recipe.title}}</a></h3>
     <p>
-      <strong>Kirjoittaja:</strong> <a href = "user/{{recipe.user_id}}">{{recipe.username}}</a>
+      <strong>written by:</strong> <a href = "user/{{recipe.user_id}}">{{recipe.username}}</a>
     </p>
     <p>
-      <strong>Valmistusaika:</strong> {{recipe.recipe_time}} minuuttia
+      <strong>Prep time:</strong> {{recipe.recipe_time}} minuuttia
     </p>
     {% if recipe.avg_rating %}
     <p>
-      <strong>Keskimääräinen arvio:</strong> {{recipe.avg_rating}}/5
+      <strong>Average rating:</strong> {{recipe.avg_rating}}/5
     </p>
     {% endif %}
       {% for class, options in classes[recipe.id].items()%}

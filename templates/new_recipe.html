@@ -1,18 +1,18 @@
 {% extends "layout.html" %}
 
-{% block title %}Uusi resepti{% endblock %}
+{% block title %}New recipe{% endblock %}
 
 {% block content %}
-<h2>Uusi resepti</h2>
+<h2>New recipe</h2>
 <form action="/create_recipe" method="post" enctype="multipart/form-data">
   <p>
-    <label for="title">Reseptin nimi:</label> <br />
+    <label for="title">Recipe name:</label> <br />
     <input type="text" id="title" name="title" size = "40" maxlength = "65" required/>
   </p>
   <p>
-    <label for="image">Valitse kuva (tiedostopääte .jpg, .jpeg tai .png): <input type="file" id="image" name="image" accept=".jpg, .jpeg, .png" />
+    <label for="image">Choose image (file extension .jpg, .jpeg or .png): <input type="file" id="image" name="image" accept=".jpg, .jpeg, .png" />
   </p>
-  <p><strong>Valitse reseptillesi sopivat kategoriat </p></strong>
+  <p><strong>Choose suitable categories for your recipe</p></strong>
   <div class="checkbox-group">
     {% for class in classes %}
     {% if class != "Vaikeustaso" %}
@@ -29,7 +29,7 @@
   <p>
     <label for="class{{ class }}">{{ class }}:</label> <br />
     <select id ="class{{ class }}" name = "classes">
-    <option value = "">(valitse)</option>
+    <option value = "">(Choose)</option>
     {% for option in classes[class] %}
     <option value = "{{ class }}:{{ option }}">{{ option }}</option>
     {% endfor %}
@@ -38,19 +38,21 @@
   {% endif %}
   {% endfor %}
   <p>
-    <label for="recipe_time">Valmistusaika:</label> <br />
-    <input type="number" id="recipe_time" name ="recipe_time" min="1" max = "999" step = "1" required/> minuuttia
+    <label for="recipe_time">Prep time:</label> <br />
+    <input type="number" id="recipe_time" name ="recipe_time" min="1" max = "999" step = "1" required/> minutes
   </p>
   <p class = "ingredients">
-    <label for="ingredients">Ainekset:</label> <br />
+    <label for="ingredients">Ingredients:</label> <br />
     <textarea id="ingredients" name="ingredients" rows="5" cols="40" maxlength=1000 required></textarea>
-    <p class="note">Erottele ainesosat pilkulla. </p>
+    <p class="note">Separate the ingredients with a comma.
+
+ </p>
   </p>
   <p>
-    <label for="instructions">Ohjeet:</label> <br />
+    <label for="instructions">Instructions:</label> <br />
     <textarea id="instructions" name="instructions" rows="8" cols="60" maxlength=3000 required></textarea>
   </p>
   <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
-  <input type="submit" value="Luo resepti" />
+  <input type="submit" value="Create recipe" />
 </form>
 {% endblock %}

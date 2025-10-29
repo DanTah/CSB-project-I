@@ -1,21 +1,21 @@
 {% extends "layout.html" %}
 
-{% block title %}Rekisteröinti{% endblock %}
+{% block title %}Registration{% endblock %}
 
 {% block content %}
-<h2>Luo tunnus</h2>
+<h2>Sign up</h2>
 
 <form action="/create" method="post">
   <p>
-    <label for="username">Tunnus:</label> <br />
+    <label for="username">Username:</label> <br />
     <input type="text" id="username" name="username" required/>
   </p>
   <p>
-    <label for="password1">Salasana:</label> <br />
+    <label for="password1">Password:</label> <br />
     <input type="password" id="password1" name="password1" required/>
   </p>
   <p>
-    <label for="password2">Salasana uudestaan:</label> <br />
+    <label for="password2">Re-enter password:</label> <br />
     <input type="password" id="password2" name="password2" required/>
   </p>
   <input type="submit" value="Luo tunnus" />

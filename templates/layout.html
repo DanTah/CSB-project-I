@@ -7,31 +7,31 @@
 </head>
 
 <body>
-  <h1>Reseptisovellus</h1>
+  <h1>Recipe app</h1>
 
   <p>
     {% if session.user_id %}
-    Olet kirjautunut nimellä {{session.username}} <br />
+    You're currently logged in as {{session.username}} <br />
     {% endif %}
   </p>
 
   <p>
-    <a href="/"> Etusivu</a> |
-    <a href="/find_recipe"> Reseptihaku</a> |
+    <a href="/"> Frontpage</a> |
+    <a href="/find_recipe"> Search recipe</a> |
     {% if session.user_id %}
-    <a href = "/new_recipe"> Uusi resepti</a> |
-    <a href = "/user/{{session.user_id}}"> Profiili</a> |
-    <a href = "/logout">Kirjaudu ulos</a>
+    <a href = "/new_recipe"> New recipe</a> |
+    <a href = "/user/{{session.user_id}}"> Profile</a> |
+    <a href = "/logout">Log out</a>
     {% else %}
-    <a href = "/login">Kirjaudu sisään</a> |
-    <a href = "/register">Luo tunnus</a>
+    <a href = "/login">Log in</a> |
+    <a href = "/register">Register</a>
     {% endif %}
   </p>
 
   {% with messages = get_flashed_messages() %}
   {% if messages %}
   {% for message in messages %}
-  {% if "VIRHE" in message %}
+  {% if "ERROR" in message %}
   <p class="info" data-status="virhe"><strong>{{message}}</strong></p>
   {% else %}
   <p class="info"><strong>{{message}}</strong></p>

@@ -1,17 +1,17 @@
 {% extends "layout.html" %}
 
-{% block title %}Reseptin poisto{% endblock %}
+{% block title %}Delete recipe{% endblock %}
 
 {% block content %}
 <h2>{{recipe.title}}</h2>
 
-<h3>Reseptin poisto</h3>
+<h3>Delete recipe</h3>
 
-<p> Haluatko varmasti poistaa reseptin "{{recipe.title}}"? </p>
+<p> Are you sure you want to delete the recipe "{{recipe.title}}"? </p>
 
 <form action="/remove_recipe/{{recipe.id}}" method="post">
   <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
-  <input type="submit" name="remove" value="Poista resepti">
-  <input type="submit" name="back" value="Peruuta">
+  <input type="submit" name="remove" value="Delete recipe">
+  <input type="submit" name="back" value="Cancel">
 </form>
 {% endblock %}

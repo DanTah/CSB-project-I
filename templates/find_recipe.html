@@ -1,32 +1,32 @@
 {% extends "layout.html" %}
 
-{% block title %}Reseptihaku{% endblock %}
+{% block title %}Search recipe{% endblock %}
 
 {% block content %}
-<h2>Reseptihaku</h2>
+<h2>Search recipe</h2>
 
 <form action="/find_recipe" method="get">
   <p>
-    <label for="query">Hakusana:</label> <input id="query" type="text" name="query">
+    <label for="query">Search term:</label> <input id="query" type="text" name="query">
   </p>
   <input type="submit" value="Hae">
 </form>
 
 {%if query%}
-<h3>Hakutulokset:</h3>
+<h3>Search results:</h3>
 <div class="recipe-list">
   {%for recipe in results%}
   <div class="recipe-card">
     <h3><a href = "/recipe/{{recipe.id}}">{{recipe.title}}</a></h3>
     <p>
-      Kirjoittaja: <a href = "user/{{recipe.user_id}}">{{recipe.username}}</a>
+      Written by: <a href = "user/{{recipe.user_id}}">{{recipe.username}}</a>
     </p>
     <p>
-      <strong>Valmistusaika:</strong> {{recipe.recipe_time}} minuuttia
+      <strong>Prep time:</strong> {{recipe.recipe_time}} minuuttia
     </p>
     {% if recipe.avg_rating %}
     <p>
-      <strong>Keskimääräinen arvio:</strong> {{recipe.avg_rating}}/5
+      <strong>Average rating:</strong> {{recipe.avg_rating}}/5
     </p>
     {% endif %}
 

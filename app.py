@@ -104,10 +104,10 @@ def create_recipe():
     image = file.read()
     if image:
         if not file.filename.endswith((".png", ".jpg", ".jpeg")):
-            flash("VIRHE: väärä tiedostomuoto")
+            flash("ERROR: incorrect file format")
             return redirect("/new_recipe")
         if len(image) > 100 * 1024:
-            flash("VIRHE: liian suuri kuva")
+            flash("ERROR: the image is too large")
             return redirect("/new_recipe")
     else:
         image = None
@@ -116,7 +116,7 @@ def create_recipe():
                        instructions, user_id, image)
     recipe_id = db.last_insert_id()
     recipes.add_classes(recipe_id, classes)
-    flash("Resepti on lisätty onnistuneesti")
+    flash("Recipe added successfully")
     return redirect("/recipe/"+str(recipe_id))
 
 @app.route("/recipe/<int:recipe_id>")
@@ -199,15 +199,15 @@ def new_image(recipe_id):
         image = file.read()
         if image:
             if not file.filename.endswith((".png", ".jpg", ".jpeg")):
-                flash("VIRHE: väärä tiedostomuoto")
+                flash("ERROR: incorrect file format")
                 return redirect("/new_image/"+str(recipe_id))
             if len(image) > 100 * 1024:
-                flash("VIRHE: liian suuri kuva")
+                flash("ERROR: the image is too large")
                 return redirect("/new_image/"+str(recipe_id))
         else:
             image = None
         recipes.update_image(recipe_id, image)
-        flash("Kuva on vaihdettu onnistuneesti")
+        flash("Image changed successfully")
         return redirect("/recipe/"+str(recipe_id))
 
 @app.route("/edit_recipe/<int:recipe_id>")
@@ -262,7 +262,7 @@ def edit_review(recipe_id, review_id):
 
             recipes.update_review(review_id, recipe_id, user_id,
                                   rating, comment, date)
-            flash("Arvio on muokattu onnistuneesti")
+            flash("Review edited successfully")
             return redirect("/recipe/"+str(recipe_id))
 
 @app.route("/update_recipe", methods = ["POST"])
@@ -305,7 +305,7 @@ def update_recipe():
 
     recipes.update_recipe(recipe_id, title, recipe_time,
                           ingredients, instructions, classes)
-    flash("Resepti on päivitetty onnistuneesti")
+    flash("Recipe updated successfully")
     return redirect("/recipe/"+str(recipe_id))
 
 @app.route("/remove_recipe/<int:recipe_id>", methods = ["GET", "POST"])
@@ -326,7 +326,7 @@ def remove_recipe(recipe_id):
 
         if "remove" in request.form:
             recipes.remove_recipe(recipe_id)
-            flash("Resepti on poistettu onnistuneesti")
+            flash("Recipe deleted successfully")
             return redirect("/")
         return redirect("/recipe/"+str(recipe_id))
 
@@ -352,19 +352,19 @@ def create():
     password1 = request.form["password1"]
     password2 = request.form["password2"]
     if not (password1 and password2):
-        flash("VIRHE: salasanaa ei annettu")
+        flash("ERROR: password not provided")
         return redirect("/register")
     if password1 != password2:
-        flash("VIRHE: salasanat eivät ole samat")
+        flash("ERROR: passwords do not match")
         return redirect("/register")
 
     try:
         users.create_user(username, password1)
     except sqlite3.IntegrityError:
-        flash("VIRHE: tunnus on jo varattu")
+        flash("ERROR: username is already taken")
         return redirect("/register")
 
-    flash("Tunnusten luonti onnistui")
+    flash("Account creation successful")
     return redirect("/login")
 
 @app.route("/login", methods = ["GET", "POST"])
@@ -382,14 +382,14 @@ def login():
             session["username"] = username
             session["csrf_token"] = secrets.token_hex(16)
             return redirect("/")
-        flash("VIRHE: väärä tunnus tai salasana")
+        flash("ERROR: incorrect username or password")
         return redirect("/login")
 
 @app.route("/logout")
 def logout():
     del session["user_id"]
     del session["username"]
-    flash("Uloskirjautuminen onnistui")
+    flash("Logout successful")
     return redirect("/")
 
 def require_login():

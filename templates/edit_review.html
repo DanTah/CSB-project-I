@@ -1,19 +1,19 @@
 {% extends "layout.html" %}
 
-{% block title %}Arvion muokkaus{% endblock %}
+{% block title %}Edit review{% endblock %}
 
 {% block content %}
-<h2>Arvion muokkaus</h2>
+<h2>Edit review</h2>
 
 <p>
-  Olet muokkaamassa arviotasi käyttäjän <a href = "/user/{{recipe.user_id}}">{{recipe.username}}</a> reseptille <a href="/recipe/{{recipe.id}}">{{recipe.title}}</a>
+  You are editing your review for a user's <a href = "/user/{{recipe.user_id}}">{{recipe.username}}'s</a> recipe <a href="/recipe/{{recipe.id}}">{{recipe.title}}</a>
 </p>
 
 <form action="/recipe/{{recipe.id}}/edit_review/{{my_review.review_id}}" method="post">
   <p>
-    <label for="rating">Arvosana:</label>
+    <label for="rating">Rating:</label>
     <select id="rating" name = "rating" required>
-      <option value = "">(valitse)</option>
+      <option value = "">(Choose)</option>
       {% for rating in range(1,6) %}
       {%  if rating == my_review.rating  %}
       <option value = "{{rating}}" selected>{{rating}}</option>
@@ -24,10 +24,10 @@
     </select>
   </p>
 
-  <textarea name = "comment" rows = "8" cols = "60" placeholder = "Kommentoi reseptiä..." maxlength = 2000 required>{{my_review.comment}}</textarea> <br />
+  <textarea name = "comment" rows = "8" cols = "60" placeholder = "Comment on the recipe..." maxlength = 2000 required>{{my_review.comment}}</textarea> <br />
   <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
-  <input type = "submit" name = "update" value = "Tallenna muutokset" />
-  <input type = "submit" name = "remove" value = "Poista arvio" />
-  <input type = "submit" name = "back" value = "Peruuta" />
+  <input type = "submit" name = "update" value = "Save changes" />
+  <input type = "submit" name = "remove" value = "Remove review" />
+  <input type = "submit" name = "back" value = "Cancel" />
 </form>
 {% endblock %}
