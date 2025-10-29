@@ -104,14 +104,20 @@ def remove_review(review_id):
     db.execute(sql, [review_id])
 
 def update_review(review_id, recipe_id, user_id, rating, comment, date):
-    sql = """ UPDATE reviews
-              SET recipe_id = ?,
-                  user_id = ?,
-                  rating = ?,
-                  comment = ?,
-                  date = ?
-              WHERE id = ?"""
-    db.execute(sql, [recipe_id, user_id, rating, comment, date, review_id])
+#    sql = """ UPDATE reviews
+#              SET recipe_id = ?,
+#                  user_id = ?,
+#                  rating = ?,
+#                  date = ?,
+#                  comment = ? WHERE id = ?"""
+#    db.execute(sql, [recipe_id, user_id, rating, date, comment, review_id])
+    sql = f""" UPDATE reviews
+               SET recipe_id = {recipe_id},
+                   user_id = {user_id},
+                   rating = {rating},
+                   date = '{date}',
+                   comment = '{comment}' WHERE id = {review_id}"""
+    db.execute(sql)
 
 def get_recipe_classes(recipe_id):
     sql = """SELECT title, value
