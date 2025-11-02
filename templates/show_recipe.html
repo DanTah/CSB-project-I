@@ -1,9 +1,9 @@
 {% extends "layout.html" %}
 
-{% block title %}{{recipe.title}}{% endblock %}
+{% block title %}{{recipe.title | safe}}{% endblock %}
 
 {% block content %}
-<h2>{{recipe.title}}</h2>
+<h2>{{recipe.title | safe}}</h2>
 
 <p>
   from user <a href = "/user/{{recipe.user_id}}"> {{recipe.username}} </a>

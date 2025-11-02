@@ -3,14 +3,14 @@
 {% block title %}Edit recipe{% endblock %}
 
 {% block content %}
-<h2>{{recipe.title}}</h2>
+<h2>{{recipe.title | safe}}</h2>
 
 <h3>Edit recipe</h3>
 
 <form action="/update_recipe" method="post">
   <p>
     <label for="title">Recipe name:</label> <br />
-    <input type="text" id="title" name="title" size = "40" value = "{{recipe.title}}" maxlength = "65" required/>
+    <input type="text" id="title" name="title" size = "40" value = "{{recipe.title | safe}}" maxlength = "65" required/>
   </p>
 
   <p><strong>Choose suitable categories for your recipe </p></strong>

@@ -17,7 +17,7 @@
 <div class="recipe-list">
   {%for recipe in results%}
   <div class="recipe-card">
-    <h3><a href = "/recipe/{{recipe.id}}">{{recipe.title}}</a></h3>
+    <h3><a href = "/recipe/{{recipe.id}}">{{recipe.title | safe}}</a></h3>
     <p>
       Written by: <a href = "user/{{recipe.user_id}}">{{recipe.username}}</a>
     </p>

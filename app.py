@@ -3,6 +3,7 @@ import secrets
 from datetime import datetime
 import math
 
+import bleach
 import markupsafe
 from flask import Flask
 from flask import abort, redirect, render_template, request, \
@@ -73,6 +74,7 @@ def create_recipe():
     check_csrf()
 
     title = request.form["title"]
+#   title = bleach.clean(title, tags = ["em"])
     if not title or len(title) > 65:
         abort(403)
     recipe_time = request.form["recipe_time"]
@@ -277,8 +279,9 @@ def update_recipe():
     if recipe["user_id"] != session["user_id"]:
         abort(403)
     title = request.form["title"]
+#   title = bleach.clean(title, tags = ["em"])
     if not title or len(title) > 65:
-        abort(403)
+        abort
     recipe_time = request.form["recipe_time"]
     if not (recipe_time and is_int(recipe_time) and \
             1 <= int(recipe_time) <= 999):

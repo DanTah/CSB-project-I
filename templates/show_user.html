@@ -12,9 +12,9 @@
 <div class="recipe-list">
   {%for recipe in recipes%}
   <div class="recipe-card">
-    <h3><a href = "/recipe/{{recipe.id}}">{{recipe.title}}</a></h3>
+    <h3><a href = "/recipe/{{recipe.id}}">{{recipe.title | safe}}</a></h3>
     <p>
-      <strong>written by:</strong> <a href = "user/{{recipe.user_id}}">{{recipe.username}}</a>
+      <strong>written by:</strong> {{recipe.username}}
     </p>
     <p>
       <strong>Prep time:</strong> {{recipe.recipe_time}} minuuttia

@@ -6,7 +6,7 @@
 <h2>Edit review</h2>
 
 <p>
-  You are editing your review for a user's <a href = "/user/{{recipe.user_id}}">{{recipe.username}}'s</a> recipe <a href="/recipe/{{recipe.id}}">{{recipe.title}}</a>
+  You are editing your review for a user's <a href = "/user/{{recipe.user_id}}">{{recipe.username}}'s</a> recipe <a href="/recipe/{{recipe.id}}">{{recipe.title | safe}}</a>
 </p>
 
 <form action="/recipe/{{recipe.id}}/edit_review/{{my_review.review_id}}" method="post">
