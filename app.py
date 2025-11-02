@@ -154,7 +154,7 @@ def show_recipe(recipe_id, page = 1):
 @app.route("/create_review", methods = ["POST"])
 def create_review():
     require_login()
-    check_csrf()
+#   check_csrf()
 
     rating = request.form["rating"]
     if not (is_int(rating) and 1 <= int(rating) <= 5):
@@ -383,7 +383,7 @@ def login():
         if user_id:
             session["user_id"] = user_id
             session["username"] = username
-            session["csrf_token"] = secrets.token_hex(16)
+#           session["csrf_token"] = secrets.token_hex(16)
             return redirect("/")
         flash("ERROR: incorrect username or password")
         return redirect("/login")
