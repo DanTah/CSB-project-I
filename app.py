@@ -383,7 +383,7 @@ def login():
         if user_id:
             session["user_id"] = user_id
             session["username"] = username
-#           session["csrf_token"] = secrets.token_hex(16)
+            session["csrf_token"] = secrets.token_hex(16)
             return redirect("/")
         flash("ERROR: incorrect username or password")
         return redirect("/login")
