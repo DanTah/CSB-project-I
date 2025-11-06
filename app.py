@@ -1,6 +1,6 @@
 import sqlite3
 import secrets
-from datetime import datetime
+from datetime import datetime, timedelta
 import math
 
 import bleach
@@ -318,8 +318,8 @@ def remove_recipe(recipe_id):
     recipe = recipes.get_recipe(recipe_id)
     if not recipe:
         abort(404)
-    if recipe["user_id"] != session["user_id"]:
-        abort(403)
+#   if recipe["user_id"] != session["user_id"]:
+#       abort(403)
 
     if request.method == "GET":
         return render_template("remove_recipe.html", recipe = recipe)
@@ -384,6 +384,8 @@ def login():
             session["user_id"] = user_id
             session["username"] = username
             session["csrf_token"] = secrets.token_hex(16)
+#           session.permanent = True
+#           app.permanent_session_lifetime = timedelta(minutes=15)
             return redirect("/")
         flash("ERROR: incorrect username or password")
         return redirect("/login")
