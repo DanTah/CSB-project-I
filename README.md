@@ -15,13 +15,13 @@
 ## Installation Instructions for Testing the Application
 Clone the repository:
 ```
-git clone https://github.com/DanTah/reseptit.git
+git clone https://github.com/DanTah/CSB-project-I.git
 ```
-Navigate to the `reseptit` folder:
+Navigate to the `CSB-project-I` folder:
 ```
-cd reseptit
+cd CSB-project-I
 ```
-Install the `flask` library:
+Install `flask`:
 ```
 pip install flask
 ```
