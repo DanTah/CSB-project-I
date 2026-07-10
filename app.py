@@ -384,8 +384,8 @@ def login():
             session["user_id"] = user_id
             session["username"] = username
             session["csrf_token"] = secrets.token_hex(16)
-#           session.permanent = True
-#           app.permanent_session_lifetime = timedelta(minutes=15)
+            session.permanent = True
+            app.permanent_session_lifetime = timedelta(minutes=15)
             return redirect("/")
         flash("ERROR: incorrect username or password")
         return redirect("/login")
