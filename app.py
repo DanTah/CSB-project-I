@@ -279,7 +279,7 @@ def update_recipe():
     if recipe["user_id"] != session["user_id"]:
         abort(403)
     title = request.form["title"]
-#   title = bleach.clean(title, tags = ["em"])
+    title = bleach.clean(title, tags = ["em"])
     if not title or len(title) > 65:
         abort
     recipe_time = request.form["recipe_time"]
