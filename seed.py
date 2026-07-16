@@ -8,35 +8,23 @@ db.execute("DELETE FROM recipes")
 db.execute("DELETE FROM classes_in_recipe")
 db.execute("DELETE FROM reviews")
 
-user_count = 10**5
-recipe_count = 10**6
-review_count = 10**7
+SQL = "INSERT INTO users (id,username, password_hash) VALUES (?,?,?)"
 
-for i in range(1, user_count + 1):
-    db.execute("INSERT INTO users (username) VALUES (?)",
-               ["user" + str(i)])
+db.execute(SQL, [1,'user1', 'password1'])
+db.execute(SQL, [2,'bad_user', 'password2'])
+db.execute(SQL, [5,'uncertain_user','seeme?'])
 
-for i in range(1, recipe_count + 1):
-    title = "test"+str(i)
-    recipe_time = 1
-    ingredients ="ingredient"
-    instructions ="instructions"
-    user_id = random.randint(1,user_count)
-    image = None
-    sql = """INSERT INTO recipes (title, recipe_time, ingredients,
-                                  instructions, user_id, image)
-             VALUES (?, ?, ?, ?, ?, ?)"""
-    db.execute(sql, [title, recipe_time, ingredients,
-                     instructions, user_id, image])
+db.commit()
 
-for i in range(1, review_count + 1):
-    recipe_id = random.randint(1, recipe_count)
-    user_id = random.randint(1, user_count)
-    rating = 5
-    comment = "comment"+str(i)
-    db.execute("""INSERT INTO reviews (recipe_id, user_id, rating, comment, date)
-                  VALUES (?, ?, ?, ?, datetime('now'))""",
-               [recipe_id, user_id, rating, comment])
+SQL = "INSERT INTO recipes (title, recipe_time, ingredients, instructions, user_id, image) VALUES (?,?,?,?,?,?)"
+db.execute(SQL, ["User1's Rrecipe", 3, '-', '-', 1, None])
+db.execute(SQL, ["bad_recipe", 1, '1', '1', 2, None])
+
+db.commit()
+
+SQL = "INSERT INTO reviews (recipe_id, user_id, rating, comment, date) VALUES (?,?,?,?,?)"
+db.execute(SQL, [1, 1, 5, 'Perfect recipe for christmas!!!', '29.10.2025'])
+db.execute(SQL, [1, 2, 1, 'bad comment', '29.10.2025'])
 
 db.commit()
 db.close()
