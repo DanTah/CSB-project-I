@@ -76,3 +76,10 @@ Now you can run the application:
 ```
 flask run
 ```
+## Ready-to-use account credentials for testing
+If `seed.py` is executed before running the application, you get access to following credentials:
+* username: **user1**, password: **password1**
+* username: **bad_user**, password: **password2**
+* username: **uncertain_user**, password: **seeme?**
+
+**user1** and **bad_user** have created one recipe each. Also, both users have reviewed **user1**'s recipe.
