@@ -11,6 +11,8 @@ This is my first project for Helsinki university course "Cyber Security Base". T
 The starter template for this project is taken from another web application, created for the course "Databases and Web Programming" (https://github.com/DanTah/reseptit). 
 Note that while some parts of the application remain untranslated, the necessary functionalities and texts are in english for testing the security flaws above.
 
+Note for the peer-reviewers: Microsoft Word's spell checker feature was used to check the spelling of the report.
+
 ## Functionalities of the Application
 
 * User can create an account and log into the application.
@@ -74,3 +76,10 @@ Now you can run the application:
 ```
 flask run
 ```
+## Ready-to-use account credentials for testing
+If `seed.py` is executed before running the application, you get access to following credentials:
+* username: **user1**, password: **password1**
+* username: **bad_user**, password: **password2**
+* username: **uncertain_user**, password: **seeme?**
+
+**user1** and **bad_user** have created one recipe each. Also, both users have reviewed **user1**'s recipe.
