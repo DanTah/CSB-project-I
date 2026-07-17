@@ -58,10 +58,14 @@ Install `flask` and `bleach`:
 ```
 pip install flask bleach
 ```
-Create the database `database.db` using the file `schema.sql` and insert the data from the file `init.sql`:
+Execute  `db_init.py` to create the database `database.db`:
+* Linux/MacOS:
 ```
-sqlite3 database.db < schema.sql
-sqlite3 database.db < init.sql
+python3 db_init.py
+```
+* Windows:
+```
+python db_init.py
 ```
 Execute `seed.py` to initialize the application with some accounts and recipes:
 * Linux/MacOS:
